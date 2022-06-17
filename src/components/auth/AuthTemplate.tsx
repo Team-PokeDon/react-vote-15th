@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 type TAuthTemplateType = {
-  children?: React.ReactNode;
+  children: React.ReactNode;
 };
 
 const AuthTemplate = ({ children }: TAuthTemplateType) => {
   return (
     <AuthTemplateBlock>
       <WhiteBox>
-        <div className="logo-area">
+        <div className="header-area">
           <Link to="/">CEOS 운영진 선출 투표</Link>
         </div>
         {children}
@@ -35,7 +35,7 @@ const AuthTemplateBlock = styled.div`
 `;
 
 const WhiteBox = styled.div`
-  .logo-area {
+  .header-area {
     display: block;
     padding-bottom: 2.3rem;
     text-align: center;
@@ -48,5 +48,5 @@ const WhiteBox = styled.div`
   padding: 2rem;
   width: 360px;
   background: white;
-  border-radius: 10px;
+  border-radius: 2px;
 `;

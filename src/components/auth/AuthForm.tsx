@@ -17,7 +17,7 @@ const textMap: TTextMap = {
 function AuthForm({ type }: any) {
   const text = textMap[type];
   return (
-    <AuthFormBlock>
+    <>
       {/* <form onSubmit={onSubmit}> */}
       <form>
         <StyledInput
@@ -46,7 +46,7 @@ function AuthForm({ type }: any) {
           />
         )}
         {/* {error && <ErrorMessage>{error}</ErrorMessage>} */}
-        <ButtonWithMarginTop cyan fullWidth style={{ marginTop: '1rem' }}>
+        <ButtonWithMarginTop cyan fullWidth>
           {text}
         </ButtonWithMarginTop>
       </form>
@@ -57,24 +57,12 @@ function AuthForm({ type }: any) {
           <Link to="/">로그인</Link>
         )}
       </Footer>
-    </AuthFormBlock>
+    </>
   );
 }
 
 export default AuthForm;
 
-const AuthFormBlock = styled.div`
-  h3 {
-    margin: 0;
-    color: ${({ theme }) => theme.palette.gray[8]};
-    margin-bottom: 1rem;
-    font-weight: bold;
-  }
-`;
-
-/**
- * 스타일링된 input
- */
 const StyledInput = styled.input`
   font-size: 1rem;
   border: none;
@@ -82,8 +70,8 @@ const StyledInput = styled.input`
   padding-bottom: 0.5rem;
   outline: none;
   width: 100%;
+
   &:focus {
-    color: $oc-teal-7;
     border-bottom: 1px solid ${({ theme }) => theme.palette.gray[7]};
   }
   & + & {
@@ -91,11 +79,8 @@ const StyledInput = styled.input`
   }
 `;
 
-/**
- * 폼 하단에 로그인 혹은 회원가입 링크를 보여줌
- */
 const Footer = styled.div`
-  margin-top: 2rem;
+  margin-top: 1rem;
   text-align: right;
   a {
     color: ${({ theme }) => theme.palette.gray[6]};
@@ -110,12 +95,9 @@ const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
 `;
 
-/**
- * 에러를 보여줍니다
- */
-const ErrorMessage = styled.div`
-  color: red;
-  text-align: center;
-  font-size: 0.875rem;
-  margin-top: 1rem;
-`;
+// const ErrorMessage = styled.div`
+//   color: red;
+//   text-align: center;
+//   font-size: 0.875rem;
+//   margin-top: 1rem;
+// `;
