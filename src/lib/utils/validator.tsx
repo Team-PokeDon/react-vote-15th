@@ -1,4 +1,4 @@
-import API from '../api/API';
+import API from '../api/axiosConfig';
 
 // export async function emailDuplicateCheck(input: string) {
 //   return new Promise((resolve, reject) => {

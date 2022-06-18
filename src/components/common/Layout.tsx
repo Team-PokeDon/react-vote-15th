@@ -19,17 +19,7 @@ import styled from 'styled-components';
 function Layout() {
   return (
     <>
-      {/* <div className="menu-list">
-        {menus.map((menu) => (
-          <MenuItem
-            key={menu.destination}
-            to={`/${menu.destination}`}
-            className={({ isActive }) => (isActive ? 'active' : undefined)}
-          >
-            {menu.text}
-          </MenuItem>
-        ))}
-      </div> */}
+      <header></header>
       <Outlet />
     </>
   );
