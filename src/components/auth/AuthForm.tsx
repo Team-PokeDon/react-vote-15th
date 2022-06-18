@@ -13,39 +13,57 @@ const textMap: TTextMap = {
   register: '회원가입',
 };
 
-// const AuthForm = ({ type, form, onChange, onSubmit, error }: any) => {
-function AuthForm({ type }: any) {
+function AuthForm({
+  type,
+  userEmail,
+  userName,
+  userPassword,
+  handleInputsChange,
+  handleAuthFormSubmit,
+  handleRadio,
+}: any) {
   const text = textMap[type];
   return (
     <>
-      {/* <form onSubmit={onSubmit}> */}
-      <form>
+      <form onSubmit={handleAuthFormSubmit}>
         <StyledInput
-          autoComplete="username"
-          name="username"
-          placeholder="아이디"
-          // onChange={onChange}
-          // value={form.username}
+          name="userEmail"
+          placeholder="이메일"
+          value={userEmail}
+          onChange={handleInputsChange}
         />
         <StyledInput
-          autoComplete="new-password"
-          name="password"
+          name="userName"
+          placeholder="이름"
+          value={userName}
+          onChange={handleInputsChange}
+        />
+        <StyledInput
+          name="userPassword"
           placeholder="비밀번호"
-          type="password"
-          // onChange={onChange}
-          // value={form.password}
+          value={userPassword}
+          onChange={handleInputsChange}
         />
-        {type === 'register' && (
-          <StyledInput
-            autoComplete="new-password"
-            name="passwordConfirm"
-            placeholder="비밀번호 확인"
-            type="password"
-            // onChange={onChange}
-            // value={form.passwordConfirm}
-          />
-        )}
-        {/* {error && <ErrorMessage>{error}</ErrorMessage>} */}
+        <RadioWrapper>
+          <label>
+            <input
+              type="radio"
+              name="userPart"
+              value="frontend"
+              onClick={handleRadio}
+            />
+            &nbsp;Frontend
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="userPart"
+              value="backend"
+              onClick={handleRadio}
+            />
+            &nbsp;Backend
+          </label>
+        </RadioWrapper>
         <ButtonWithMarginTop cyan fullWidth>
           {text}
         </ButtonWithMarginTop>
@@ -93,6 +111,19 @@ const Footer = styled.div`
 
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
+`;
+
+const RadioWrapper = styled.div`
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: 1px solid ${({ theme }) => theme.palette.gray[1]};
+  label {
+    margin-right: 2rem;
+    color: ${({ theme }) => theme.palette.gray[6]};
+    &:hover {
+      color: ${({ theme }) => theme.palette.gray[9]};
+    }
+  }
 `;
 
 // const ErrorMessage = styled.div`
