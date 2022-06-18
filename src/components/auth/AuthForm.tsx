@@ -117,11 +117,15 @@ const RadioWrapper = styled.div`
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
   color: 1px solid ${({ theme }) => theme.palette.gray[1]};
+
   label {
     margin-right: 2rem;
     color: ${({ theme }) => theme.palette.gray[6]};
     &:hover {
       color: ${({ theme }) => theme.palette.gray[9]};
+    }
+    input:checked + label {
+      color: red;
     }
   }
 `;
