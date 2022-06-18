@@ -1,89 +1,301 @@
+import { useRef, useState, useEffect } from 'react';
+import {
+  faCheck,
+  faTimes,
+  faInfoCircle,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import axios from './api/axios';
+
+const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const REGISTER_URL = '/register';
+
+const Register = () => {
+  const userRef = useRef<HTMLInputElement>(null);
+  const errRef = useRef(null);
+
+  const [user, setUser] = useState('');
+  const [validName, setValidName] = useState(false);
+  const [userFocus, setUserFocus] = useState(false);
+
+  const [pwd, setPwd] = useState('');
+  const [validPwd, setValidPwd] = useState(false);
+  const [pwdFocus, setPwdFocus] = useState(false);
+
+  const [matchPwd, setMatchPwd] = useState('');
+  const [validMatch, setValidMatch] = useState(false);
+  const [matchFocus, setMatchFocus] = useState(false);
+
+  const [errMsg, setErrMsg] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    userRef.current!.focus();
+  }, []);
+
+  useEffect(() => {
+    setValidName(USER_REGEX.test(user));
+  }, [user]);
+
+  useEffect(() => {
+    setValidPwd(PWD_REGEX.test(pwd));
+    setValidMatch(pwd === matchPwd);
+  }, [pwd, matchPwd]);
+
+  useEffect(() => {
+    setErrMsg('');
+  }, [user, pwd, matchPwd]);
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    // // if button enabled with JS hack
+    // const v1 = USER_REGEX.test(user);
+    // const v2 = PWD_REGEX.test(pwd);
+    // if (!v1 || !v2) {
+    //   setErrMsg('Invalid Entry');
+    //   return;
+    // }
+    // try {
+    //   const response = await axios.post(
+    //     REGISTER_URL,
+    //     JSON.stringify({ user, pwd }),
+    //     {
+    //       headers: { 'Content-Type': 'application/json' },
+    //       withCredentials: true,
+    //     },
+    //   );
+    //   console.log(response?.data);
+    //   console.log(response?.accessToken);
+    //   console.log(JSON.stringify(response));
+    //   setSuccess(true);
+    //   //clear state and controlled inputs
+    //   //need value attrib on inputs for this
+    //   setUser('');
+    //   setPwd('');
+    //   setMatchPwd('');
+    // } catch (err) {
+    //   if (!err?.response) {
+    //     setErrMsg('No Server Response');
+    //   } else if (err.response?.status === 409) {
+    //     setErrMsg('Username Taken');
+    //   } else {
+    //     setErrMsg('Registration Failed');
+    //   }
+    //   errRef.current.focus();
+    // }
+  };
+
+  return (
+    <>
+      {success ? (
+        <section>
+          <h1>Success!</h1>
+          <p>
+            <a href="#">Sign In</a>
+          </p>
+        </section>
+      ) : (
+        <section>
+          <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'}>
+            {errMsg}
+          </p>
+          <h1>Register</h1>
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="username">
+              Username:
+              <FontAwesomeIcon
+                icon={faCheck}
+                className={validName ? 'valid' : 'hide'}
+              />
+              <FontAwesomeIcon
+                icon={faTimes}
+                className={validName || !user ? 'hide' : 'invalid'}
+              />
+            </label>
+            <input
+              type="text"
+              id="username"
+              ref={userRef}
+              autoComplete="off"
+              onChange={(e) => setUser(e.target.value)}
+              value={user}
+              required
+              onFocus={() => setUserFocus(true)}
+              onBlur={() => setUserFocus(false)}
+            />
+            <p
+              id="uidnote"
+              className={
+                userFocus && user && !validName ? 'instructions' : 'offscreen'
+              }
+            >
+              <FontAwesomeIcon icon={faInfoCircle} />
+              4 to 24 characters.
+              <br />
+              Must begin with a letter.
+              <br />
+              Letters, numbers, underscores, hyphens allowed.
+            </p>
+
+            <label htmlFor="password">
+              Password:
+              <FontAwesomeIcon
+                icon={faCheck}
+                className={validPwd ? 'valid' : 'hide'}
+              />
+              <FontAwesomeIcon
+                icon={faTimes}
+                className={validPwd || !pwd ? 'hide' : 'invalid'}
+              />
+            </label>
+            <input
+              type="password"
+              id="password"
+              onChange={(e) => setPwd(e.target.value)}
+              value={pwd}
+              required
+              onFocus={() => setPwdFocus(true)}
+              onBlur={() => setPwdFocus(false)}
+            />
+            <p
+              id="pwdnote"
+              className={pwdFocus && !validPwd ? 'instructions' : 'offscreen'}
+            >
+              <FontAwesomeIcon icon={faInfoCircle} />
+              8 to 24 characters.
+              <br />
+              Must include uppercase and lowercase letters, a number and a
+              special character.
+              <br />
+              Allowed special characters:{' '}
+            </p>
+
+            <label htmlFor="confirm_pwd">
+              Confirm Password:
+              <FontAwesomeIcon
+                icon={faCheck}
+                className={validMatch && matchPwd ? 'valid' : 'hide'}
+              />
+              <FontAwesomeIcon
+                icon={faTimes}
+                className={validMatch || !matchPwd ? 'hide' : 'invalid'}
+              />
+            </label>
+            <input
+              type="password"
+              id="confirm_pwd"
+              onChange={(e) => setMatchPwd(e.target.value)}
+              value={matchPwd}
+              required
+              onFocus={() => setMatchFocus(true)}
+              onBlur={() => setMatchFocus(false)}
+            />
+            <p
+              id="confirmnote"
+              className={
+                matchFocus && !validMatch ? 'instructions' : 'offscreen'
+              }
+            >
+              <FontAwesomeIcon icon={faInfoCircle} />
+              Must match the first password input field.
+            </p>
+
+            <button
+              disabled={!validName || !validPwd || !validMatch ? true : false}
+            >
+              Sign Up
+            </button>
+          </form>
+          <p>
+            Already registered?
+            <br />
+            <span className="line">
+              {/*put router link here*/}
+              <a href="#">Sign In</a>
+            </span>
+          </p>
+        </section>
+      )}
+    </>
+  );
+};
+
+export default Register;
+
 // import React, { useEffect, useState } from 'react';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { changeField, initializeForm, register } from '../../modules/auth';
 // import { check } from '../../modules/user';
 // import { useNavigate } from 'react-router-dom';
 
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import useInputs from '../../lib/hooks/useInputs';
-import AuthForm from './AuthForm';
-import { isEmail, isPart, isPassword, isName } from '../../lib/utils/validator';
+// import { useNavigate } from 'react-router-dom';
+// import useInputs from '../../lib/hooks/useInputs';
+// import AuthForm from './AuthForm';
+// import {
+//   isValidEmail,
+//   isValidPart,
+//   isValidPassword,
+//   isValidName,
+// } from '../../lib/utils/validator';
+// import { useAppDispatch, useAppSelector } from '../../store/app/hooks';
+// import { register, selectUserData } from '../../store/auth/authSlice';
 
-function useFormCheck(prevState: string) {
-  const [bool, setBool] = useState(false);
-  useEffect(() => {
-    if (prevState !== '') {
-      setBool(true);
-    } else {
-      setBool(false);
-    }
-  }, [prevState]);
-  return bool;
-}
+// function validateAuthForm(payload: any) {
+//   if (
+//     isValidEmail(payload.userEmail) &&
+//     isValidName(payload.userName) &&
+//     isValidPassword(payload.userPassword) &&
+//     isValidPart(payload.userPart)
+//   )
+//     return true;
+//   return false;
+// }
 
-function validateAuthForm(payload: any) {
-  if (!isPassword(payload.password)) {
-    window.alert('비밀번호는 8자 이상의 영문과 숫자 조합이어야 합니다.');
-    return false;
-  } else if (!isName(payload.username)) {
-    window.alert('이름은 한글 혹은 영문이어야 합니다.');
-    return false;
-  } else if (!isPart(payload.part)) {
-    window.alert('파트를 선택하세요.');
-    return false;
-  } else {
-    return true;
-  }
-}
+// function RegisterForm() {
+//   const navigate = useNavigate();
+//   const [{ userEmail, userName, userPassword, userPart }, handleInputsChange] =
+//     useInputs({
+//       userEmail: '',
+//       userName: '',
+//       userPassword: '',
+//       userPart: '',
+//     });
 
-function RegisterForm() {
-  const navigate = useNavigate();
-  const [{ userEmail, userName, userPassword }, handleInputsChange, reset] =
-    useInputs({
-      userEmail: '',
-      userName: '',
-      userPassword: '',
-    });
-  const [isUserEmailValid, setIsUserEmailValid] = useState(true);
-  const [userPart, setUserPart] = useState('');
+//   // global state
+//   const userData = useAppSelector(selectUserData);
+//   const dispatch = useAppDispatch();
 
-  function handleRadio(e: any) {
-    setUserPart(e.target.value);
-  }
+//   function handleAuthFormSubmit(e: any) {
+//     e.preventDefault();
+//     const payload = {
+//       userEmail: userEmail,
+//       userName: userName,
+//       userPassword: userPassword,
+//       userPart: userPart,
+//     };
+//     console.log(payload);
+//     if (validateAuthForm(payload)) {
+//       // register code goes here
+//       dispatch(register(payload));
+//       navigate(`/`);
+//     }
+//   }
 
-  const formCheck3 = useFormCheck(userPassword);
-  const formCheck4 = useFormCheck(userPart);
+//   return (
+//     <AuthForm
+//       type="register"
+//       userEmail={userEmail}
+//       userName={userName}
+//       userPassword={userPassword}
+//       handleInputsChange={handleInputsChange}
+//       handleAuthFormSubmit={handleAuthFormSubmit}
+//       // error={error}
+//     />
+//   );
+// }
 
-  function handleAuthFormSubmit(e: any) {
-    e.preventDefault();
-    const payload = {
-      userEmail: userEmail,
-      userName: userName,
-      userPassword: userPassword,
-      userPart: userPart,
-    };
-    if (validateAuthForm(payload)) {
-      navigate(`vote/${userPart}`);
-    }
-  }
-
-  return (
-    <AuthForm
-      type="register"
-      userEmail={userEmail}
-      userName={userName}
-      userPassword={userPassword}
-      userPart={userPart}
-      handleInputsChange={handleInputsChange}
-      handleAuthFormSubmit={handleAuthFormSubmit}
-      handleRadio={handleRadio}
-      // error={error}
-    />
-  );
-}
-
-export default RegisterForm;
+// export default RegisterForm;
 
 // const [error, setError] = useState(null);
 // const dispatch = useDispatch();
