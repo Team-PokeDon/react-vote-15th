@@ -1,5 +1,6 @@
 import { Outlet, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import logo from '../../assets/logo.png';
 
 // const menus = [
 //   {
@@ -19,7 +20,9 @@ import styled from 'styled-components';
 function Layout() {
   return (
     <>
-      <header></header>
+      <Header>
+        <img src={logo} />
+      </Header>
       <Outlet />
     </>
   );
@@ -27,13 +30,11 @@ function Layout() {
 
 export default Layout;
 
-// const MenuItem = styled(NavLink)`
-//   &.active {
-//     font-size: bold;
-//     border-bottom: 1px solid;
-//   }
+const Header = styled.div`
+  height: 80px;
+  background: ${({ theme }) => theme.palette.gray[2]};
 
-//   & + & {
-//     margin-left: 1rem;
-//   }
-// `;
+  img {
+    object-fit: cover;
+  }
+`;

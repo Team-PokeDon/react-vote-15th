@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://ec2-52-78-135-107.ap-northeast-2.compute.amazonaws.com/api',
+  baseURL: 'http://bankids.click/api',
   headers: {
     'Content-Type': 'application/json',
   },
