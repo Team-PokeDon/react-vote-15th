@@ -15,7 +15,7 @@ function App() {
         {/* public */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="unauthorized" element={<UnauthorizedPage />} />
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
         {/* private */}
         <Route element={<RequireAuth allowedPart={'FE'} />}>
           <Route path="/vote/frontend" element={<FEVotePage />} />
