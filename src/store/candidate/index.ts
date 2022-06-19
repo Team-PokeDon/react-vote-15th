@@ -15,6 +15,7 @@ export const getCandidateThunk = createAsyncThunk(
       const data = await getCandidates(part);
       return data.detail;
     } catch (e) {
+      console.log(e);
       rejectWithValue(e);
     }
   },

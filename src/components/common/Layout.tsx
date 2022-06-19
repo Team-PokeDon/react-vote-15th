@@ -20,9 +20,7 @@ import logo from '../../assets/logo.png';
 function Layout() {
   return (
     <>
-      <Header>
-        <img src={logo} />
-      </Header>
+      <Header></Header>
       <Outlet />
     </>
   );

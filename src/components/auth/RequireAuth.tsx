@@ -1,13 +1,14 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation, useParams } from 'react-router-dom';
 import UnauthorizedPage from '../../pages/UnauthorizedPage';
 import { useAppSelector } from '../../store/app/hooks';
 import { selectUser } from '../../store/auth/authSlice';
 
-function RequireAuth({ allowedPart }: any) {
+function RequireAuth() {
   const user = useAppSelector(selectUser);
   const location = useLocation();
+  const { part } = useParams();
   if (user.part === 'FE' || user.part === 'BE') {
-    if (user.part === allowedPart) {
+    if (user.part === part) {
       return <Outlet />;
     } else {
       return <UnauthorizedPage />;
