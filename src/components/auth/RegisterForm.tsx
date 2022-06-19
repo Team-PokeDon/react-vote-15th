@@ -4,18 +4,16 @@ import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import Button from '../common/Button';
-// import axios from './api/axios';
+import axios from '../../lib/api/axios';
 
 const USER_REGEX = /^[가-힣a-zA-Z]+$/;
+// 8자 미만, 15자 초과 시 400
 const PWD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const EMAIL_REGEX =
   /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-const REGISTER_URL = '/register';
+const REGISTER_URL = '/users/sigups';
 
 function RegisterForm() {
-  const userRef = useRef<HTMLInputElement>(null);
-  const errRef = useRef<HTMLSpanElement>(null);
-
   const [user, setUser] = useState('');
   const [validName, setValidName] = useState(false);
   const [userFocus, setUserFocus] = useState(false);
@@ -55,7 +53,7 @@ function RegisterForm() {
   }, [email]);
 
   useEffect(() => {
-    if (part === 'frontend' || part === 'backend') {
+    if (part === 'FE' || part === 'BE') {
       setValidPart(true);
     } else {
       setValidPart(false);
@@ -68,37 +66,43 @@ function RegisterForm() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log(user, pwd, email, part);
-    setSuccess(true);
-    // try {
-    //   const response = await axios.post(
-    //     REGISTER_URL,
-    //     JSON.stringify({ user, pwd }),
-    //     {
-    //       headers: { 'Content-Type': 'application/json' },
-    //       withCredentials: true,
-    //     },
-    //   );
-    //   console.log(response?.data);
-    //   console.log(response?.accessToken);
-    //   console.log(JSON.stringify(response));
-    //   setSuccess(true);
-    //   //clear state and controlled inputs
-    //   //need value attrib on inputs for this
-    //   setUser('');
-    //   setPwd('');
-    //   setMatchPwd('');
-    // } catch (err) {
-    //   if (!err?.response) {
-    //     setErrMsg('No Server Response');
-    //   } else if (err.response?.status === 409) {
-    //     setErrMsg('Username Taken');
-    //   } else {
-    //     setErrMsg('Registration Failed');
-    //   }
-    // }
+    // if button enabled with JS hack
+    const temp1 = USER_REGEX.test(user);
+    const temp2 = PWD_REGEX.test(pwd);
+    const temp3 = EMAIL_REGEX.test(email);
+    if (!temp1 || !temp2 || !temp3) {
+      setErrMsg('부적절한 접근입니다.');
+      return;
+    }
+    try {
+      const response = await axios.post(
+        REGISTER_URL,
+        JSON.stringify({ name: user, password: pwd, email, part }),
+        {
+          headers: { 'Content-Type': 'application/json' },
+          // withCredentials: true,
+        },
+      );
+      console.log(JSON.stringify(response?.data));
+      // console.log(JSON.stringify(response));
+      setSuccess(true);
+      setUser('');
+      setPwd('');
+      setMatchPwd('');
+      setEmail('');
+      setPart('');
+    } catch (err: any) {
+      if (!err?.response) {
+        setErrMsg('서버가 응답하지 않습니다.');
+      } else if (err.response?.status === 400) {
+        setErrMsg('이미 사용된 이메일 입니다. 다른 이메일을 사용하세요.');
+      } else if (err.code === 'ECONNABORTED') {
+        setErrMsg('응답 시간이 초과되었습니다.');
+      } else {
+        setErrMsg('회원가입에 실패했습니다.');
+      }
+    }
   };
-
   return (
     <>
       {success ? (
@@ -260,19 +264,19 @@ function RegisterForm() {
               <input
                 name="part"
                 type="radio"
-                id="frontend"
-                value="frontend"
+                id="FE"
+                value="FE"
                 onClick={handleRadioBtnClick}
               />
-              <label htmlFor="frontend">&nbsp;Frontend</label>
+              <label htmlFor="FE">&nbsp;Frontend</label>
               <input
                 name="part"
                 type="radio"
-                id="backend"
-                value="backend"
+                id="BE"
+                value="BE"
                 onClick={handleRadioBtnClick}
               />
-              <label htmlFor="backend">&nbsp;Backend</label>
+              <label htmlFor="BE">&nbsp;Backend</label>
             </RadioWrapper>
 
             <ButtonWithMarginTop
@@ -292,10 +296,8 @@ function RegisterForm() {
             </ButtonWithMarginTop>
 
             <Footer>
-              <ErrMsg ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'}>
-                {errMsg}
-              </ErrMsg>
               <Link to="/">로그인</Link>
+              <span className={errMsg ? 'errmsg' : 'offscreen'}>{errMsg}</span>
             </Footer>
           </form>
         </section>
@@ -314,6 +316,8 @@ const InputWrapper = styled.div`
   }
   .input-positioner {
     display: flex;
+    justify-content: space-between;
+    position: relative;
   }
 `;
 
@@ -330,6 +334,10 @@ const StyledInput = styled.input`
 `;
 
 const ValidIcon = styled.div`
+  position: absolute;
+  right: 3px;
+  bottom: 5px;
+  z-index: 5;
   font-size: 1.2rem;
   .valid {
     color: green;
@@ -348,8 +356,7 @@ const Instruction = styled.div`
   .instruction {
     color: red;
     font-size: 0.8rem;
-    margin-top: 1rem;
-    margin-bottom: 0.8rem;
+    margin-top: 0.8rem;
   }
   .offscreen {
     position: absolute;
@@ -365,23 +372,16 @@ const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
-  text-align: right;
   a {
-    color: ${({ theme }) => theme.palette.gray[6]};
+    text-align: right;
+    color: ${({ theme }) => theme.palette.cyan[6]};
     text-decoration: underline;
     &:hover {
-      color: ${({ theme }) => theme.palette.gray[9]};
+      color: ${({ theme }) => theme.palette.cyan[9]};
     }
   }
-`;
-
-const ErrMsg = styled.span`
   .errmsg {
-    background-color: lightpink;
-    color: firebrick;
-    font-weight: bold;
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
+    color: red;
   }
   .offscreen {
     position: absolute;
@@ -393,7 +393,6 @@ const RadioWrapper = styled.div`
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
   color: 1px solid ${({ theme }) => theme.palette.gray[1]};
-
   label {
     margin-right: 1rem;
     color: ${({ theme }) => theme.palette.gray[6]};
@@ -401,7 +400,6 @@ const RadioWrapper = styled.div`
       color: ${({ theme }) => theme.palette.gray[9]};
     }
   }
-
   input[type='radio']:checked + label {
     color: ${({ theme }) => theme.palette.gray[9]};
   }

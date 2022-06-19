@@ -93,7 +93,6 @@ const StyledInput = styled.input`
   padding-bottom: 0.5rem;
   outline: none;
   width: 100%;
-
   &:focus {
     border-bottom: 1px solid ${({ theme }) => theme.palette.gray[7]};
   }
@@ -122,7 +121,6 @@ const RadioWrapper = styled.div`
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
   color: 1px solid ${({ theme }) => theme.palette.gray[1]};
-
   label {
     margin-right: 0.5rem;
     color: ${({ theme }) => theme.palette.gray[6]};
@@ -130,15 +128,7 @@ const RadioWrapper = styled.div`
       color: ${({ theme }) => theme.palette.gray[9]};
     }
   }
-
   input[type='radio']:checked + label {
     color: ${({ theme }) => theme.palette.gray[9]};
   }
 `;
-
-// const ErrorMessage = styled.div`
-//   color: red;
-//   text-align: center;
-//   font-size: 0.875rem;
-//   margin-top: 1rem;
-// `;
