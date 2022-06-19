@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from '../../lib/api/axios';
 import { useAppDispatch } from '../../store/app/hooks';
@@ -9,11 +9,16 @@ import Button from '../common/Button';
 const LOGIN_URL = '/users/login';
 
 function LoginForm() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  // @ts-expect-error
+  const from = location.state?.from?.pathname || '/';
+
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
   const [errMsg, setErrMsg] = useState('');
-  const [success, setSuccess] = useState(false);
+  // const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -35,7 +40,11 @@ function LoginForm() {
       dispatch(setUserData({ id, name, email, part, accessToken }));
       setEmail('');
       setPwd('');
-      setSuccess(true);
+      // setSuccess(true);
+      // 로그인 페이지로 접근하기전에 향하고자 했던 페이지로 들어가게 된다.
+      navigate(from, { replace: true });
+      // navigate(`vote/backend`);
+      // 그냥 파트별로 이동하는걸로 바꾸어야할듯!
     } catch (err: any) {
       if (!err?.response) {
         setErrMsg('서버가 응답하지 않습니다.');
@@ -47,42 +56,42 @@ function LoginForm() {
 
   return (
     <>
-      {success ? (
+      {/* {success ? (
         <section>
           <h1>로그인에 성공했습니다!</h1>
           <Footer>
             <Link to="/vote">투표하러 가기</Link>
           </Footer>
         </section>
-      ) : (
-        <section>
-          <form onSubmit={handleSubmit}>
-            <StyledInput
-              placeholder="이메일"
-              type="text"
-              autoFocus
-              autoComplete="off"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              required
-            />
-            <StyledInput
-              placeholder="비밀번호"
-              type="password"
-              onChange={(e) => setPwd(e.target.value)}
-              value={pwd}
-              required
-            />
-            <ButtonWithMarginTop cyan fullWidth>
-              로그인
-            </ButtonWithMarginTop>
-          </form>
-          <Footer>
-            <Link to="/register">회원가입</Link>
-            <span className={errMsg ? 'errmsg' : 'offscreen'}>{errMsg}</span>
-          </Footer>
-        </section>
-      )}
+      ) : ( */}
+      <section>
+        <form onSubmit={handleSubmit}>
+          <StyledInput
+            placeholder="이메일"
+            type="text"
+            autoFocus
+            autoComplete="off"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            required
+          />
+          <StyledInput
+            placeholder="비밀번호"
+            type="password"
+            onChange={(e) => setPwd(e.target.value)}
+            value={pwd}
+            required
+          />
+          <ButtonWithMarginTop cyan fullWidth>
+            로그인
+          </ButtonWithMarginTop>
+        </form>
+        <Footer>
+          <Link to="/register">회원가입</Link>
+          <span className={errMsg ? 'errmsg' : 'offscreen'}>{errMsg}</span>
+        </Footer>
+      </section>
+      {/* )} */}
     </>
   );
 }

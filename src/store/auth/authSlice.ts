@@ -9,8 +9,14 @@ interface IUser {
   accessToken: string;
 }
 
-export type TAuthState = {
-  user: IUser;
+type TAuthState = {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    part: string;
+    accessToken: string;
+  };
 };
 
 const initialState: TAuthState = {
@@ -39,6 +45,6 @@ export const authSlice = createSlice({
 
 export const { setUserData } = authSlice.actions;
 
-// export const selectUser = (state: RootState) => state.auth.user;
+export const selectUser = (state: RootState) => state.auth.user;
 
 export default authSlice.reducer;
