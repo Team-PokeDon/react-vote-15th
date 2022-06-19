@@ -1,23 +1,31 @@
 import { Route, Routes } from 'react-router-dom';
 import Layout from './components/common/Layout';
-
+import RequireAuth from './components/auth/RequireAuth';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import NotFound from './pages/NotFound';
-import MainPage from './pages/Main';
-// import Home from './pages/Home';
-// import My from './pages/My';
-// import Settings from './pages/Settings';
+import FEVotePage from './pages/FEVotePage';
+import BEVotePage from './pages/BEVotePage';
+import NotFoundPage from './pages/NotFoundPage';
+import UnauthorizedPage from './pages/UnauthorizedPage';
 
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route index element={<LoginPage />} />
+        {/* public */}
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/main" element={<MainPage />} />
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
+        {/* private */}
+        <Route element={<RequireAuth allowedPart={'FE'} />}>
+          <Route path="/vote/frontend" element={<FEVotePage />} />
+        </Route>
+        <Route element={<RequireAuth allowedPart={'BE'} />}>
+          <Route path="/vote/backend" element={<BEVotePage />} />
+        </Route>
       </Route>
-      <Route path="*" element={<NotFound />} />
+      {/* catch all */}
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
