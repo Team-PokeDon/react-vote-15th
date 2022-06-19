@@ -62,7 +62,7 @@ function RegisterForm() {
 
   useEffect(() => {
     setErrMsg('');
-  }, [user, pwd, matchPwd]);
+  }, [user, pwd, matchPwd, email, part]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -95,9 +95,7 @@ function RegisterForm() {
       if (!err?.response) {
         setErrMsg('서버가 응답하지 않습니다.');
       } else if (err.response?.status === 400) {
-        setErrMsg('이미 사용된 이메일 입니다. 다른 이메일을 사용하세요.');
-      } else if (err.code === 'ECONNABORTED') {
-        setErrMsg('응답 시간이 초과되었습니다.');
+        setErrMsg('이미 사용된 이메일 입니다.');
       } else {
         setErrMsg('회원가입에 실패했습니다.');
       }
@@ -107,7 +105,7 @@ function RegisterForm() {
     <>
       {success ? (
         <section>
-          <h1>회원가입에 성공했습니다.</h1>
+          <h1>회원가입에 성공했습니다!</h1>
           <Footer>
             <Link to="/">로그인</Link>
           </Footer>
@@ -374,7 +372,7 @@ const Footer = styled.div`
   margin-top: 1rem;
   a {
     text-align: right;
-    color: ${({ theme }) => theme.palette.cyan[6]};
+    color: ${({ theme }) => theme.palette.cyan[7]};
     text-decoration: underline;
     &:hover {
       color: ${({ theme }) => theme.palette.cyan[9]};
