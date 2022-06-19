@@ -24,26 +24,36 @@ import API from '../api/API';
 //   });
 // }
 
-export function isEmail(asValue: string) {
+export function isValidEmail(asValue: string) {
   var regExp =
     /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-  return regExp.test(asValue);
+  if (!regExp.test(asValue)) {
+    window.alert('올바른 이메일 형식이 아닙니다.');
+    return false;
+  }
+  return true;
 }
 
-// 여섯글자 이상의 영어 소문자 혹은 숫자 조합
-export function isPassword(asValue: string) {
-  var regExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
-  return regExp.test(asValue);
+export function isValidPassword(asValue: string) {
+  var regExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+  if (!regExp.test(asValue)) {
+    window.alert('이름은 한글 혹은 영문이어야 합니다.');
+    return false;
+  }
+  return true;
 }
 
-// 한글 혹은 영문
-export function isName(asValue: string) {
+export function isValidName(asValue: string) {
   var regExp = /^[가-힣a-zA-Z]+$/;
-  return regExp.test(asValue);
+  if (!regExp.test(asValue)) {
+    window.alert('비밀번호는 8자 이상의 영문과 숫자 조합이어야 합니다.');
+    return false;
+  }
+  return true;
 }
 
-export function isPart(asValue: string) {
-  if (asValue === 'frontend') return true;
-  else if (asValue === 'backend') return true;
-  else return false;
+export function isValidPart(asValue: string) {
+  if (asValue === 'frontend' || asValue === 'backend') return true;
+  window.alert('파트를 선택하세요.');
+  return false;
 }
