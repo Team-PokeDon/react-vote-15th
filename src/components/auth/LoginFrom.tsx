@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from '../../lib/api/axios';
 import { useAppDispatch } from '../../store/app/hooks';
+import { setUserData } from '../../store/auth/authSlice';
 import Button from '../common/Button';
 
 const LOGIN_URL = '/users/login';
@@ -26,11 +27,12 @@ function LoginForm() {
         },
       );
       console.log(JSON.stringify(response?.data));
-      //console.log(JSON.stringify(response));
-      const part = response?.data?.part;
-      const accessToken = response?.data?.access_token;
-      const refreshToken = response?.data?.refresh_token;
-      // setAuth({ email, pwd, roles, accessToken }); // global
+      // console.log(JSON.stringify(response));
+      const id = response?.data?.detail.id;
+      const name = response?.data?.detail.name;
+      const part = response?.data?.detail.part;
+      const accessToken = response?.data?.detail.token.access_token;
+      dispatch(setUserData({ id, name, email, part, accessToken }));
       setEmail('');
       setPwd('');
       setSuccess(true);
