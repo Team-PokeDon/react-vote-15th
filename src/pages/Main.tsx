@@ -1,6 +1,5 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Candidates from '../components/main/Candidates';
 
 function Main() {
   const user = {

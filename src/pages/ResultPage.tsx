@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
-import Candidates from '../components/main/Candidates';
-
+import ResultBox from '../components/vote/ResultBox';
+import useCandidates from '../lib/hooks/useCandidates';
 function ResultPage() {
   const { part } = useParams();
-
-  return <>{part && <Candidates part={part} />}</>;
+  const list = part ? useCandidates(part) : [];
+  return <ResultBox list={list} />;
 }
 
 export default ResultPage;
