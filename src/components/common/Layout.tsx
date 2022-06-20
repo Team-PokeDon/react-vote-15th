@@ -21,7 +21,9 @@ function Layout() {
   return (
     <>
       <Header></Header>
-      <Outlet />
+      <Content>
+        <Outlet />
+      </Content>
     </>
   );
 }
@@ -29,10 +31,12 @@ function Layout() {
 export default Layout;
 
 const Header = styled.div`
-  height: 80px;
+  height: 60px;
   background: ${({ theme }) => theme.palette.gray[2]};
-
-  img {
-    object-fit: cover;
-  }
+`;
+const Content = styled.div`
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

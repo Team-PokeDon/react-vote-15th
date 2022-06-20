@@ -11,13 +11,12 @@ const initialState: ICandidateListState = {
 export const getCandidateThunk = createAsyncThunk(
   'candidate/getCandidate',
   async (part: string, { rejectWithValue }) => {
-    try {
-      const data = await getCandidates(part);
-      return data.detail;
-    } catch (e) {
-      console.log(e);
-      rejectWithValue(e);
+    const res = await getCandidates(part);
+    console.log(res);
+    if (!res) {
+      rejectWithValue('error');
     }
+    return res.detail;
   },
 );
 
@@ -42,6 +41,7 @@ export const candidateSlice = createSlice({
       })
       .addCase(getCandidateThunk.rejected, (state, action) => {
         state.pending = false;
+        console.error(action.error);
       });
   },
 });
