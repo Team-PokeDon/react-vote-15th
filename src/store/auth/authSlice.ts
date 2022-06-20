@@ -24,7 +24,7 @@ const initialState: TAuthState = {
     id: '',
     name: '',
     email: '',
-    part: '',
+    part: 'FE',
     accessToken: '',
   },
 };
