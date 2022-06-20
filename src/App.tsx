@@ -7,25 +7,32 @@ import FEVotePage from './pages/FEVotePage';
 import BEVotePage from './pages/BEVotePage';
 import NotFoundPage from './pages/NotFoundPage';
 import UnauthorizedPage from './pages/UnauthorizedPage';
+import PersistLogin from './components/auth/PersistLogin';
+import HomePage from './pages/HomePage';
 
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
         {/* public */}
+        <Route index element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
+
         {/* private */}
-        <Route element={<RequireAuth allowedPart={'FE'} />}>
-          <Route path="/vote/frontend" element={<FEVotePage />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth allowedPart={'FE'} />}>
+            <Route path="/vote/frontend" element={<FEVotePage />} />
+          </Route>
+          <Route element={<RequireAuth allowedPart={'BE'} />}>
+            <Route path="/vote/backend" element={<BEVotePage />} />
+          </Route>
         </Route>
-        <Route element={<RequireAuth allowedPart={'BE'} />}>
-          <Route path="/vote/backend" element={<BEVotePage />} />
-        </Route>
+
+        {/* catch all */}
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
-      {/* catch all */}
-      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

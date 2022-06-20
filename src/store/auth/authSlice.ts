@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { stat } from 'fs';
 import { RootState } from '../app/store';
 
 interface IUser {
@@ -20,6 +21,8 @@ type TAuthState = {
 };
 
 const initialState: TAuthState = {
+  // persist, setPersist
+  // trust or not은 local storage에 저장
   user: {
     id: '',
     name: '',

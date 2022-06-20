@@ -1,3 +1,15 @@
+// JSON Web Token
+// access token == short time 발급 (5 ~ 15분)
+// <- APP이 close 되면 자동으로 파괴된다. // do not store in local storage or cookie
+// JS에 저장하게 되면 해킹의 위험이 있다. // 메모리에 저장해야 한다!
+// refresh token == long time
+// 로그아웃 전에 만료되면 재발급 해야한다.
+
+// xss, csrf에 대한 위험이 있음
+
+// refresh token 또한 받았지만 로컬에 저장되지 않는다.
+// JS가 접근할 수도 없다
+// 필요한 경우 axios가 다시 서버로 보낸다. <- 데이터를 요청할 때
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -54,6 +66,14 @@ function LoginForm() {
     }
   };
 
+  const togglePersist = () => {
+    // setPersist(prev => !prev);
+  };
+
+  // useEffect(() => {
+  //   localStorage.setItem('persist', persist);
+  // }, [persist])
+
   return (
     <>
       {/* {success ? (
@@ -86,6 +106,15 @@ function LoginForm() {
             로그인
           </ButtonWithMarginTop>
         </form>
+        <PersistCheck>
+          <input
+            type="checkbox"
+            id="persist"
+            // onChange={togglePersis}
+            // checked={persist}
+          />
+          <label htmlFor="persist">Trust This Device</label>
+        </PersistCheck>
         <Footer>
           <Link to="/register">회원가입</Link>
           <span className={errMsg ? 'errmsg' : 'offscreen'}>{errMsg}</span>
@@ -136,4 +165,9 @@ const Footer = styled.div`
     position: absolute;
     left: -9999px;
   }
+`;
+
+const PersistCheck = styled.div`
+  width: 100%;
+  height: 100%;
 `;
