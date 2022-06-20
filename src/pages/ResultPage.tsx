@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ResultBox from '../components/vote/ResultBox';
-import useCandidates from '../lib/hooks/useCandidates';
 import { useAppDispatch, useAppSelector } from '../store/app/hooks';
 import { getCandidateThunk } from '../store/candidate';
 import Loading from '../components/common/Loading';
@@ -21,13 +20,34 @@ function ResultPage() {
       )
     : [];
 
-  return <Wrapper>{pending ? <Loading /> : <ResultBox list={list} />}</Wrapper>;
+  return (
+    <Wrapper pending={pending}>
+      {pending ? (
+        <Loading />
+      ) : (
+        <ResultWrapper>
+          <h1>{part} 투표 현황</h1>
+          <ResultBox list={list} />
+        </ResultWrapper>
+      )}
+    </Wrapper>
+  );
 }
 
 export default ResultPage;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ pending: boolean }>`
   display: flex;
-  width: 100%;
-  height: calc(100vh - 60px);
+  flex-direction: column;
+  justify-content: center;
+  ${({ pending }) => pending && `height: calc(100vh - 80px);`}
+`;
+
+const ResultWrapper = styled.div`
+  width: 466px;
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 20px 0px;
+  }
 `;

@@ -10,7 +10,7 @@ const API = axios.create({
 
 // const token = JSON.stringify(localStorage.getItem('token'));
 const token =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU1Nzk5OTk0LCJpYXQiOjE2NTU3MTM1OTQsImp0aSI6IjliYjA2YTVkMWNkYjRjNzdiZjM0OTRmYjQyZjY3ZDY2IiwidXNlcl9pZCI6OX0.slkHJmPXW2CQyQFpdhhilExtxXXDmubAfwpwAC-Vdc4';
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU1NzUwNDQ1LCJpYXQiOjE2NTU3NDY4NDUsImp0aSI6IjlkNDQ1MTUyNTU4ZTRhMjM4YjM1NWMzNWZkNzgxZjdiIiwidXNlcl9pZCI6MX0.S9eHe3cyhjMqXNU9SCYjMteLv41jmA6mJoqiYsDTDtc';
 API.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
 export default API;

@@ -21,7 +21,7 @@ function Layout() {
   return (
     <>
       <Header></Header>
-      <Content>
+      <Content className="content">
         <Outlet />
       </Content>
     </>
