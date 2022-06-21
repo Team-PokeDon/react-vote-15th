@@ -2,7 +2,6 @@ import useLocalStorage from './useLocalStorage';
 
 function useInput(key: any, initValue: any) {
   const [value, setValue] = useLocalStorage(key, initValue);
-
   const reset = () => setValue(initValue);
   const attributeObj = {
     value,

@@ -10,6 +10,7 @@ function RequireAuth({ allowedPart }: any) {
     if (user.part === allowedPart) {
       return <Outlet />;
     } else {
+      // 파트에 따라 권한없음 표시!
       return <UnauthorizedPage />;
     }
   } else {

@@ -1,10 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAppSelector } from '../../store/app/hooks';
-import { selectPersist, selectUser } from '../../store/auth/authSlice';
+// import { selectPersist, selectUser } from '../../store/auth/authSlice';
 import { faRefresh } from '@fortawesome/free-solid-svg-icons';
 import useRefreshToken from '../../lib/hooks/useRefreshToken';
 import useLocalStorage from '../../lib/hooks/useLocalStorage';
+import { selectUser } from '../../store/auth/authSlice';
 
 function PersistLogin() {
   const [isLoading, setIsLoading] = useState(true);
@@ -28,14 +29,14 @@ function PersistLogin() {
         isMounted && setIsLoading(false);
       }
     };
-    !user?.accessToken ? verifyRefreshToken() : setIsLoading(false);
+    // !user?.accessToken ? verifyRefreshToken() : setIsLoading(false);
     // return () => (isMounted = false); // <-- 해결해야됨
   }, []);
 
   // test
   useEffect(() => {
     console.log(`isLoading: ${isLoading}`);
-    console.log(`aT: ${JSON.stringify(user?.accessToken)}`);
+    // console.log(`aT: ${JSON.stringify(user?.accessToken)}`);
   }, [isLoading]);
 
   // persist에 따른 확인 로직 추가

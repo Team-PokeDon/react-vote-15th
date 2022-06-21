@@ -14,24 +14,21 @@ function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        {/* public */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-        <Route element={<PersistLogin />}>
-          <Route index element={<HomePage />} />
-          {/* private */}
-          <Route element={<RequireAuth allowedPart={'FE'} />}>
-            <Route path="/vote/frontend" element={<FEVotePage />} />
-          </Route>
-          <Route element={<RequireAuth allowedPart={'BE'} />}>
-            <Route path="/vote/backend" element={<BEVotePage />} />
-          </Route>
+        {/* <Route element={<PersistLogin />}> */}
+        <Route index element={<HomePage />} />
+        <Route element={<RequireAuth allowedPart={'FE'} />}>
+          <Route path="/vote/frontend" element={<FEVotePage />} />
         </Route>
-        {/* catch all */}
-        <Route path="*" element={<NotFoundPage />} />
+        <Route element={<RequireAuth allowedPart={'BE'} />}>
+          <Route path="/vote/backend" element={<BEVotePage />} />
+        </Route>
       </Route>
+      <Route path="*" element={<NotFoundPage />} />
+      {/* </Route> */}
     </Routes>
   );
 }

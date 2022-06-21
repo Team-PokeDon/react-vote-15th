@@ -13,10 +13,10 @@ function HomePage() {
   return (
     <>
       <li>
-        <Link to="/vote/frontend">FE 투표</Link>
+        <Link to="/vote/frontend">프론트엔드 엔지니어 파트장 투표하러가기</Link>
       </li>
       <li>
-        <Link to="/vote/backend">BE 투표</Link>
+        <Link to="/vote/backend">API 쟁이들 파트장 투표하러가기</Link>
       </li>
       <button onClick={signOut}>로그아웃</button>
     </>

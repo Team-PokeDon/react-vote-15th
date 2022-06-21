@@ -1,36 +1,42 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { stat } from 'fs';
 import { RootState } from '../app/store';
 
-interface IUser {
+export interface IUser {
   id: string;
-  name: string;
   email: string;
   part: string;
-  accessToken: string;
+  token: {
+    accessToken: string;
+    refreshToken: string;
+  };
+}
+
+// from BE
+export interface IDetail {
+  id: string;
+  email: string;
+  part: string;
+  token: {
+    access_token: string;
+    refresh_token: string;
+  };
 }
 
 type TAuthState = {
-  persist: any;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    part: string;
-    accessToken: string;
-  };
+  user: IUser;
 };
 
 const initialState: TAuthState = {
-  persist: JSON.parse(localStorage.getItem('persist')!) || false, // 👈️ non-null assertion
   // persist: JSON.parse(localStorage.getItem('persist')!),
   // trust or not은 local storage에 저장
   user: {
     id: '',
-    name: '',
     email: '',
     part: '',
-    accessToken: '',
+    token: {
+      accessToken: '',
+      refreshToken: '',
+    },
   },
 };
 
@@ -38,22 +44,22 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setUserData: (state, action: PayloadAction<IUser>) => {
+    setUser: (state, action: PayloadAction<IDetail>) => {
       state.user.id = action.payload.id;
-      state.user.name = action.payload.name;
       state.user.email = action.payload.email;
       state.user.part = action.payload.part;
-      state.user.accessToken = action.payload.accessToken;
+      state.user.token.accessToken = action.payload.token.access_token;
+      state.user.token.refreshToken = action.payload.token.refresh_token;
     },
-    togglePersist: (state) => {
-      state.persist = !state.persist;
-    },
+    // togglePersist: (state) => {
+    //   state.persist = !state.persist;
+    // },
   },
 });
 
-export const { setUserData } = authSlice.actions;
+export const { setUser } = authSlice.actions;
 
 export const selectUser = (state: RootState) => state.auth.user;
-export const selectPersist = (state: RootState) => state.auth.persist;
+// export const selectPersist = (state: RootState) => state.auth.persist;
 
 export default authSlice.reducer;

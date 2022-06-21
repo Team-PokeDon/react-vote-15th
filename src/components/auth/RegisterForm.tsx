@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
@@ -7,7 +7,6 @@ import Button from '../common/Button';
 import axios from '../../lib/api/axios';
 
 const USER_REGEX = /^[가-힣a-zA-Z]+$/;
-// 8자 미만, 15자 초과 시 400
 const PWD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const EMAIL_REGEX =
   /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
@@ -37,6 +36,7 @@ function RegisterForm() {
   const [validPart, setValidPart] = useState(false);
 
   const [errMsg, setErrMsg] = useState('');
+
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
@@ -84,7 +84,6 @@ function RegisterForm() {
         },
       );
       console.log(JSON.stringify(response?.data));
-      // console.log(JSON.stringify(response));
       setUser('');
       setPwd('');
       setMatchPwd('');
@@ -108,13 +107,12 @@ function RegisterForm() {
         <section>
           <h1>회원가입에 성공했습니다!</h1>
           <Footer>
-            <Link to="/">로그인</Link>
+            <Link to="/login">로그인</Link>
           </Footer>
         </section>
       ) : (
         <section>
           <form onSubmit={handleSubmit}>
-            {/* username */}
             <InputWrapper>
               <div className="input-positioner">
                 <StyledInput
@@ -150,7 +148,6 @@ function RegisterForm() {
               </Instruction>
             </InputWrapper>
 
-            {/* password */}
             <InputWrapper>
               <div className="input-positioner">
                 <StyledInput
@@ -174,13 +171,6 @@ function RegisterForm() {
                 </ValidIcon>
               </div>
               <Instruction>
-                {/* <span
-                  className={
-                    pwdFocus && pwd && !validPwd ? 'instruction' : 'offscreen'
-                  }
-                >
-                  비밀번호는 8~15자의 영문과 숫자 조합이어야 합니다.
-                </span> */}
                 <span
                   className={
                     pwdFocus && pwd && !validPwd ? 'on-screen' : 'off-screen'
@@ -191,7 +181,6 @@ function RegisterForm() {
               </Instruction>
             </InputWrapper>
 
-            {/* confirm password */}
             <InputWrapper>
               <div className="input-positioner">
                 <StyledInput
@@ -215,16 +204,6 @@ function RegisterForm() {
                 </ValidIcon>
               </div>
               <Instruction>
-                {/* <span
-                  className={
-                    matchFocus && matchPwd && !validMatch
-                      ? 'instruction'
-                      : 'offscreen'
-                  }
-                >
-                  비밀번호가 일치하지 않습니다.
-                </span> */}
-
                 <span
                   className={
                     matchFocus && matchPwd && !validMatch
@@ -237,7 +216,6 @@ function RegisterForm() {
               </Instruction>
             </InputWrapper>
 
-            {/* email */}
             <InputWrapper>
               <div className="input-positioner">
                 <StyledInput
@@ -271,15 +249,6 @@ function RegisterForm() {
                 >
                   올바른 이메일 형식이 아닙니다.
                 </span>
-                {/* <span
-                  className={
-                    emailFocus && email && !validEmail
-                      ? 'instruction'
-                      : 'offscreen'
-                  }
-                >
-                  올바른 이메일 형식이 아닙니다.
-                </span> */}
               </Instruction>
             </InputWrapper>
 
@@ -385,17 +354,6 @@ const Instruction = styled.div`
     color: white;
   }
 `;
-
-// .instruction {
-//     color: red;
-//     font-size: 0.8rem;
-//     margin-top: 0.8rem;
-//   }
-//   .offscreen {
-//     /* position: absolute;
-//     left: -9999px; */
-//     color: white;
-//   }
 
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1.1rem;

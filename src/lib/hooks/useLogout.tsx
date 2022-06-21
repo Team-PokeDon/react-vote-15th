@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../store/app/hooks';
-import { selectUser, setUserData } from '../../store/auth/authSlice';
+import { selectUser, setUser } from '../../store/auth/authSlice';
 import axios from '../api/axios';
 
 const useLogout = () => {
@@ -15,7 +15,7 @@ const useLogout = () => {
     const email = '';
     const part = '';
     const accessToken = '';
-    dispatch(setUserData({ id, name, email, part, accessToken }));
+    // dispatch(setUser({ id, name, email, part, accessToken }));
     try {
       // logout을 통해 rT 만료시킴 -> 그것을 로그아웃이라고 한다!!!
       const response = await axios('/logout', {
