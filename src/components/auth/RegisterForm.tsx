@@ -80,17 +80,17 @@ function RegisterForm() {
         JSON.stringify({ name: user, password: pwd, email, part }),
         {
           headers: { 'Content-Type': 'application/json' },
-          // withCredentials: true,
+          withCredentials: true,
         },
       );
       console.log(JSON.stringify(response?.data));
       // console.log(JSON.stringify(response));
-      setSuccess(true);
       setUser('');
       setPwd('');
       setMatchPwd('');
       setEmail('');
       setPart('');
+      setSuccess(true);
     } catch (err: any) {
       console.log(err);
       if (!err?.response) {
@@ -142,9 +142,7 @@ function RegisterForm() {
               <Instruction>
                 <span
                   className={
-                    userFocus && user && !validName
-                      ? 'instruction'
-                      : 'offscreen'
+                    userFocus && user && !validName ? 'on-screen' : 'off-screen'
                   }
                 >
                   이름은 한글 혹은 영문이어야 합니다.
@@ -176,12 +174,19 @@ function RegisterForm() {
                 </ValidIcon>
               </div>
               <Instruction>
-                <span
+                {/* <span
                   className={
                     pwdFocus && pwd && !validPwd ? 'instruction' : 'offscreen'
                   }
                 >
-                  비밀번호는 8자 이상의 영문과 숫자 조합이어야 합니다.
+                  비밀번호는 8~15자의 영문과 숫자 조합이어야 합니다.
+                </span> */}
+                <span
+                  className={
+                    pwdFocus && pwd && !validPwd ? 'on-screen' : 'off-screen'
+                  }
+                >
+                  비밀번호는 8~15자의 영문과 숫자 조합이어야 합니다.
                 </span>
               </Instruction>
             </InputWrapper>
@@ -210,11 +215,21 @@ function RegisterForm() {
                 </ValidIcon>
               </div>
               <Instruction>
-                <span
+                {/* <span
                   className={
                     matchFocus && matchPwd && !validMatch
                       ? 'instruction'
                       : 'offscreen'
+                  }
+                >
+                  비밀번호가 일치하지 않습니다.
+                </span> */}
+
+                <span
+                  className={
+                    matchFocus && matchPwd && !validMatch
+                      ? 'on-screen'
+                      : 'off-screen'
                   }
                 >
                   비밀번호가 일치하지 않습니다.
@@ -249,13 +264,22 @@ function RegisterForm() {
               <Instruction>
                 <span
                   className={
-                    emailFocus && email && !validName
+                    emailFocus && email && !validEmail
+                      ? 'on-screen'
+                      : 'off-screen'
+                  }
+                >
+                  올바른 이메일 형식이 아닙니다.
+                </span>
+                {/* <span
+                  className={
+                    emailFocus && email && !validEmail
                       ? 'instruction'
                       : 'offscreen'
                   }
                 >
                   올바른 이메일 형식이 아닙니다.
-                </span>
+                </span> */}
               </Instruction>
             </InputWrapper>
 
@@ -311,7 +335,7 @@ const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   & + & {
-    margin-top: 1rem;
+    margin-top: 1.1rem;
   }
   .input-positioner {
     display: flex;
@@ -352,25 +376,35 @@ const ValidIcon = styled.div`
 const Instruction = styled.div`
   display: flex;
   align-items: center;
-  .instruction {
+  font-size: 0.8rem;
+  margin-top: 0.8rem;
+  .on-screen {
     color: red;
-    font-size: 0.8rem;
-    margin-top: 0.8rem;
   }
-  .offscreen {
-    position: absolute;
-    left: -9999px;
+  .off-screen {
+    color: white;
   }
 `;
 
+// .instruction {
+//     color: red;
+//     font-size: 0.8rem;
+//     margin-top: 0.8rem;
+//   }
+//   .offscreen {
+//     /* position: absolute;
+//     left: -9999px; */
+//     color: white;
+//   }
+
 const ButtonWithMarginTop = styled(Button)`
-  margin-top: 1rem;
+  margin-top: 1.1rem;
 `;
 
 const Footer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 1rem;
+  margin-top: 1.1rem;
   a {
     text-align: right;
     color: ${({ theme }) => theme.palette.cyan[7]};
@@ -389,7 +423,7 @@ const Footer = styled.div`
 `;
 
 const RadioWrapper = styled.div`
-  margin-top: 1.5rem;
+  margin-top: 1.1rem;
   margin-bottom: 0.5rem;
   color: 1px solid ${({ theme }) => theme.palette.gray[1]};
   label {

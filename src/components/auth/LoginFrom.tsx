@@ -151,18 +151,18 @@ const StyledInput = styled.input`
     border-bottom: 1px solid ${({ theme }) => theme.palette.gray[7]};
   }
   & + & {
-    margin-top: 1rem;
+    margin-top: 1.1rem;
   }
 `;
 
 const ButtonWithMarginTop = styled(Button)`
-  margin-top: 1rem;
+  margin-top: 1.1rem;
 `;
 
 const Footer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 1rem;
+  margin-top: 1.1rem;
   a {
     text-align: right;
     color: ${({ theme }) => theme.palette.cyan[7]};
@@ -181,7 +181,7 @@ const Footer = styled.div`
 `;
 
 const PersistCheck = styled.div`
-  margin-top: 1rem;
+  margin-top: 1.1rem;
   color: 1px solid ${({ theme }) => theme.palette.gray[1]};
   label {
     color: ${({ theme }) => theme.palette.gray[6]};
