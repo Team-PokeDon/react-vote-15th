@@ -14,12 +14,12 @@ function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
+        <Route index element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
         {/* <Route element={<PersistLogin />}> */}
-        <Route index element={<HomePage />} />
         <Route element={<RequireAuth allowedPart={'FE'} />}>
           <Route path="/vote/frontend" element={<FEVotePage />} />
         </Route>

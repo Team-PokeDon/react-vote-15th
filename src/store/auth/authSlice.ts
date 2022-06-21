@@ -27,6 +27,8 @@ type TAuthState = {
 };
 
 const initialState: TAuthState = {
+  // 토큰을 App state 즉 메모리에 저장한다. App 종료 시 모든 정보는 삭제된다.
+  // localStorage 혹은 JS로 접근가능한 쿠키에 저장하는 방법은 토큰 탈취 위험 등 보안상 취약하다.
   user: {
     id: '',
     email: '',

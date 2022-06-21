@@ -11,42 +11,41 @@ const useAxiosPrivate = () => {
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
-        // initial request // 1. 처음 or 새로고침 시에는 header에 token이 들어있지 않음
+        // initial request: 첫번째 시도 or 새로고침 시 authorization header가 설정되어 있지 않기 때문에 설정해준다.
         // @ts-expect-error
         if (!config.headers['Authorization']) {
           // @ts-expect-error
-          config.headers['Authorization'] = `Bearer ${user.accessToken}`;
+          config.headers['Authorization'] = `Bearer ${user.token.accessToken}`;
         }
         return config;
       },
       (error) => Promise.reject(error),
     );
+
     const responseIntercept = axiosPrivate.interceptors.response.use(
-      // good
+      // response is good
       (response) => response,
-      // bad
-      // 2.
+      // response is bad due to 토큰 만료
       async (error) => {
         const prevRequest = error?.config;
-        // expire access token: 403 // access 토큰 재발급이 필요한 경우
-        if (error?.response?.status === 403 && !prevRequest?.sent) {
+        // expire access token == 401 error
+        if (error?.response?.status === 401 && !prevRequest?.sent) {
           prevRequest.sent = true;
-          const newAccessToken = await refresh();
-          // 새로운 access token이 header에 들어감!!!!
+          const newAccessToken = await refresh(); // 토큰 갱신
           prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-          // access token 만료 -> refresh 하기 -> request 다시함
+          // request again
           return axiosPrivate(prevRequest);
         }
         return Promise.reject(error);
       },
     );
-    // clean up
     return () => {
+      // interceptors 제거
       axiosPrivate.interceptors.request.eject(requestIntercept);
       axiosPrivate.interceptors.response.eject(responseIntercept);
     };
   }, [user, refresh]);
-
+  // interceptor를 포함한 인스턴스를 반환한다.
   return axiosPrivate;
 };
 
