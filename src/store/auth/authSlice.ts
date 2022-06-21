@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
 
-export interface IUser {
+interface IUser {
   id: string;
   email: string;
   part: string;
@@ -11,7 +11,7 @@ export interface IUser {
   };
 }
 
-// from BE
+// TODO: mv to /types
 export interface IDetail {
   id: string;
   email: string;
@@ -27,8 +27,6 @@ type TAuthState = {
 };
 
 const initialState: TAuthState = {
-  // persist: JSON.parse(localStorage.getItem('persist')!),
-  // trust or not은 local storage에 저장
   user: {
     id: '',
     email: '',
@@ -51,15 +49,9 @@ export const authSlice = createSlice({
       state.user.token.accessToken = action.payload.token.access_token;
       state.user.token.refreshToken = action.payload.token.refresh_token;
     },
-    // togglePersist: (state) => {
-    //   state.persist = !state.persist;
-    // },
   },
 });
 
 export const { setUser } = authSlice.actions;
-
 export const selectUser = (state: RootState) => state.auth.user;
-// export const selectPersist = (state: RootState) => state.auth.persist;
-
 export default authSlice.reducer;

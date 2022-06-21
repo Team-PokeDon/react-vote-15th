@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 function FEVotePage() {
-  return <div>FE Vote</div>;
+  return <div>Frontend Vote</div>;
 }
 
 export default FEVotePage;

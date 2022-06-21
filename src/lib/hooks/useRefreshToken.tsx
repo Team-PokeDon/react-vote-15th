@@ -1,25 +1,19 @@
-import { useDispatch } from 'react-redux';
-import { useAppDispatch, useAppSelector } from '../../store/app/hooks';
-import { selectUser, setUser } from '../../store/auth/authSlice';
+import { useAppDispatch } from '../../store/app/hooks';
+import { setUser } from '../../store/auth/authSlice';
 import axios from '../api/axios';
 
 const useRefreshToken = () => {
-  const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
-
   const refresh = async () => {
     const response = await axios.get('/refresh', {
       withCredentials: true,
     });
-    console.log(user); // prev
-    const id = user.id;
-    // const name = user.name;
-    const email = user.email;
-    const part = user.part;
-    const accessToken = response.data.accessToken; // new access token
-    // dispatch(setUser({ id, name, email, part, accessToken }));
-    return response.data.accessToken;
+    // overwrite with a new access token, prev state from the server
+    dispatch(setUser(response?.data?.detail));
+    // return the new access token
+    return response.data.token.access_token;
   };
+  // access token을 refresh 하는 함수를 반환한다.
   return refresh;
 };
 
