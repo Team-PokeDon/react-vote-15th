@@ -11,7 +11,7 @@ const USER_REGEX = /^[가-힣a-zA-Z]+$/;
 const PWD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const EMAIL_REGEX =
   /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-const REGISTER_URL = '/users/signups';
+const REGISTER_URL = '/users/signups/';
 
 function RegisterForm() {
   const [user, setUser] = useState('');
@@ -397,6 +397,7 @@ const RadioWrapper = styled.div`
     color: ${({ theme }) => theme.palette.gray[6]};
     &:hover {
       color: ${({ theme }) => theme.palette.gray[9]};
+      cursor: pointer;
     }
   }
   input[type='radio']:checked + label {

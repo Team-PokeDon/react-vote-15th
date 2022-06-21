@@ -1,6 +1,7 @@
 import axios from 'axios';
 const BASE_URL =
-  'https://3ebb92ce-e5ba-4a57-9798-d1290e7ce95b.mock.pstmn.io/api';
+  // 'https://3ebb92ce-e5ba-4a57-9798-d1290e7ce95b.mock.pstmn.io/api';
+  'https://bankids.click/api';
 
 export default axios.create({
   baseURL: BASE_URL,

@@ -11,6 +11,7 @@ interface IUser {
 }
 
 type TAuthState = {
+  persist: any;
   user: {
     id: string;
     name: string;
@@ -21,7 +22,8 @@ type TAuthState = {
 };
 
 const initialState: TAuthState = {
-  // persist, setPersist
+  persist: JSON.parse(localStorage.getItem('persist')!) || false, // 👈️ non-null assertion
+  // persist: JSON.parse(localStorage.getItem('persist')!),
   // trust or not은 local storage에 저장
   user: {
     id: '',
@@ -43,11 +45,15 @@ export const authSlice = createSlice({
       state.user.part = action.payload.part;
       state.user.accessToken = action.payload.accessToken;
     },
+    togglePersist: (state) => {
+      state.persist = !state.persist;
+    },
   },
 });
 
 export const { setUserData } = authSlice.actions;
 
 export const selectUser = (state: RootState) => state.auth.user;
+export const selectPersist = (state: RootState) => state.auth.persist;
 
 export default authSlice.reducer;

@@ -15,13 +15,13 @@ function App() {
     <Routes>
       <Route element={<Layout />}>
         {/* public */}
-        <Route index element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-        {/* private */}
         <Route element={<PersistLogin />}>
+          <Route index element={<HomePage />} />
+          {/* private */}
           <Route element={<RequireAuth allowedPart={'FE'} />}>
             <Route path="/vote/frontend" element={<FEVotePage />} />
           </Route>
@@ -29,7 +29,6 @@ function App() {
             <Route path="/vote/backend" element={<BEVotePage />} />
           </Route>
         </Route>
-
         {/* catch all */}
         <Route path="*" element={<NotFoundPage />} />
       </Route>
