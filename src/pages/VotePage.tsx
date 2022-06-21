@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/app/hooks';
 import Candidate from '../components/vote/Candidate';
 import { getCandidateThunk } from '../store/candidate';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { postVote } from '../lib/api';
 import Loading from '../components/common/Loading';
 
@@ -16,19 +16,15 @@ function VotePage() {
   const { part } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const voteAreaRef = useRef<HTMLDivElement>(null);
+  const submitRef = useRef<HTMLButtonElement>(null);
   const InitialSelect = {
     id: null,
     user_name: null,
   };
   const [select, setSelect] = useState<TSelectState>(InitialSelect);
   const pending = useAppSelector((state) => state.candidate.pending);
-  const user = {
-    name: '한규진',
-    email: 'email1@naver.com',
-    part: 'FE',
-    token:
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU1NzQ2NjQ1LCJpYXQiOjE2NTU2NjAyNDUsImp0aSI6IjgyYzhlZjFkNDk5ZjRkNTc4MTk2Njg2MGIzNzkyY2EwIiwidXNlcl9pZCI6MTJ9.dWUw9Fmyg2hsBZxoFyqljZJeHk_v7_U2K5jixrLioxU',
-  };
+
   useEffect(() => {
     part && dispatch(getCandidateThunk(part));
   }, []);
@@ -66,6 +62,23 @@ function VotePage() {
     }
   };
 
+  // 특정 영역 제외 클릭 감지해서 선택 제거
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent): void => {
+      if (
+        voteAreaRef.current &&
+        !voteAreaRef.current.contains(e.target as Node) &&
+        !submitRef.current?.contains(e.target as Node)
+      ) {
+        setSelect(InitialSelect);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [voteAreaRef]);
+
   return (
     <Wrapper pending={pending}>
       {pending ? (
@@ -73,7 +86,7 @@ function VotePage() {
       ) : (
         <>
           <h1>{part} 투표하기</h1>
-          <CandidateList>
+          <CandidateList ref={voteAreaRef}>
             {list.map((candidate) => (
               <div
                 onClick={() => {
@@ -88,7 +101,11 @@ function VotePage() {
               </div>
             ))}
           </CandidateList>
-          <VoteButton disabled={select.id ? false : true} onClick={handleVote}>
+          <VoteButton
+            disabled={select.id ? false : true}
+            onClick={handleVote}
+            ref={submitRef}
+          >
             투표하기
           </VoteButton>
         </>

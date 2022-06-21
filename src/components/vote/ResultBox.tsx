@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import masterball from '../../assets/masterball.png';
 import styled, { css } from 'styled-components';
 import { ICandidate } from '../../lib/types/candidates';
-
+import { useAppSelector } from '../../store/app/hooks';
+import Loading from '../common/Loading';
 function ResultBox({ list }: { list: ICandidate[] }) {
+  const pending = useAppSelector((state) => state.candidate.pending);
+
   let tie: number | null = null;
   const realRank = (i: number) => {
     if (i == 0) return i + 1;
@@ -20,27 +23,41 @@ function ResultBox({ list }: { list: ICandidate[] }) {
   };
 
   return (
-    <Wrapper>
-      {list.map((v, i) => (
-        <ResultItem key={v.id} rank={realRank(i)}>
-          <Rank rank={realRank(i)}>{realRank(i)}</Rank>
-          <Name>{v.user_name}</Name>
-          <Count>
-            <div>실시간 득표수</div>
-            {v.vote_count}
-          </Count>
-        </ResultItem>
-      ))}
+    <Wrapper pending={pending}>
+      {pending ? (
+        <Loading />
+      ) : (
+        <>
+          {list.map((v, i) => (
+            <ResultItem key={v.id} rank={realRank(i)}>
+              <Rank rank={realRank(i)}>{realRank(i)}</Rank>
+              <Name rank={realRank(i)}>{v.user_name}</Name>
+              <Count>
+                <div>실시간 득표수</div>
+                {v.vote_count}
+              </Count>
+            </ResultItem>
+          ))}
+        </>
+      )}
     </Wrapper>
   );
 }
 
 export default ResultBox;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ pending: boolean }>`
   border: 1px solid ${({ theme }) => theme.palette.gray[2]};
   border-radius: 8px;
   background-color: #fff;
+  height: 550px;
+  ${({ pending }) =>
+    pending &&
+    css`
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    `}
 `;
 const ResultItem = styled.div<{ rank: number }>`
   display: grid;
@@ -59,18 +76,33 @@ const Rank = styled.div<{ rank: number }>`
   ${({ rank }) =>
     rank <= 3
       ? css`
-          color: ${({ theme }) => theme.palette.cyan[9 - rank * 3]};
+          color: ${({ theme }) => theme.palette.cyan[1 + rank * 2]};
         `
       : css`
-          color: ${({ theme }) => theme.palette.gray[5]};
+          color: ${({ theme }) => theme.palette.gray[6]};
         `};
 `;
-const Name = styled.div`
+const Name = styled.div<{ rank: number }>`
   font-size: 24px;
   font-weight: 700;
   text-align: left;
   line-height: 36px;
   color: ${({ theme }) => theme.palette.gray[8]};
+  ${({ rank }) =>
+    rank == 1 &&
+    css`
+      :after {
+        content: '';
+        width: 20px;
+        height: 20px;
+        background-size: 20px 20px;
+        background-image: url(${masterball});
+        display: inline-block;
+        position: relative;
+        top: 1px;
+        left: 8px;
+      }
+    `}
 `;
 const Count = styled.div`
   font-size: 24px;

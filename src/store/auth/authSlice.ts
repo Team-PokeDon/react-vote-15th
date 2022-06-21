@@ -21,8 +21,8 @@ type TAuthState = {
 
 const initialState: TAuthState = {
   user: {
-    id: '',
-    name: '',
+    id: '1',
+    name: '한규진',
     email: '',
     part: 'FE',
     accessToken: '',
