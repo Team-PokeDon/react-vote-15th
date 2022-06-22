@@ -6,7 +6,6 @@ import { selectUser } from '../../store/auth/authSlice';
 function RequireAuth() {
   const user = useAppSelector(selectUser);
   const location = useLocation();
-  console.log('asdf');
   const { part } = useParams();
   if (user.part === 'FE' || user.part === 'BE') {
     if (user.part === part) {

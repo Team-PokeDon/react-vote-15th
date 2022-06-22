@@ -62,9 +62,16 @@ export const authSlice = createSlice({
     refreshAccessToken: (state, action: PayloadAction<IAccessToken>) => {
       state.user.token.accessToken = action.payload.access_token;
     },
+    resetUser: (state) => {
+      state.user.id = '';
+      state.user.email = '';
+      state.user.part = '';
+      state.user.token.accessToken = '';
+      state.user.token.refreshToken = '';
+    },
   },
 });
 
-export const { setUser, refreshAccessToken } = authSlice.actions;
+export const { setUser, refreshAccessToken, resetUser } = authSlice.actions;
 export const selectUser = (state: RootState) => state.auth.user;
 export default authSlice.reducer;

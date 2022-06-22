@@ -80,7 +80,7 @@ function RegisterForm() {
         JSON.stringify({ name: user, password: pwd, email, part }),
         {
           headers: { 'Content-Type': 'application/json' },
-          // withCredentials: true,
+          withCredentials: true,
         },
       );
       console.log(JSON.stringify(response?.data));
