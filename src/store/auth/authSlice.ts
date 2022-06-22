@@ -22,6 +22,10 @@ export interface IDetail {
   };
 }
 
+export interface IAccessToken {
+  access_token: string;
+}
+
 type TAuthState = {
   user: IUser;
 };
@@ -51,9 +55,12 @@ export const authSlice = createSlice({
       state.user.token.accessToken = action.payload.token.access_token;
       state.user.token.refreshToken = action.payload.token.refresh_token;
     },
+    refreshAccessToken: (state, action: PayloadAction<IAccessToken>) => {
+      state.user.token.accessToken = action.payload.access_token;
+    },
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setUser, refreshAccessToken } = authSlice.actions;
 export const selectUser = (state: RootState) => state.auth.user;
 export default authSlice.reducer;
