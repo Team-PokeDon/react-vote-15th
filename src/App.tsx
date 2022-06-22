@@ -8,11 +8,14 @@ import NotFoundPage from './pages/NotFoundPage';
 import UnauthorizedPage from './pages/UnauthorizedPage';
 import Main from './pages/Main';
 import ResultPage from './pages/ResultPage';
+import PersistLogin from './components/auth/PersistLogin';
+import HomePage from './pages/HomePage';
+
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        {/* public */}
+        <Route index element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/" element={<Main />} />
@@ -23,8 +26,8 @@ function App() {
           <Route path="/vote/:part" element={<VotePage />} />
         </Route>
       </Route>
-      {/* catch all */}
       <Route path="*" element={<NotFoundPage />} />
+      {/* </Route> */}
     </Routes>
   );
 }

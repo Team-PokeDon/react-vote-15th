@@ -11,18 +11,12 @@ function RequireAuth() {
     if (user.part === part) {
       return <Outlet />;
     } else {
+      // 파트에 따라 권한없음 표시!
       return <UnauthorizedPage />;
     }
   } else {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
-  // 내가 가려고 했던곳도 기억하고 있어야된다.
-  // return  (
-  //   user?.part? === allowedPart
-  //   <Navigate to="/login" state={{ from: location }} replace />
-  // ) : (
-  //   <Outlet />
-  // );
 }
 
 export default RequireAuth;
