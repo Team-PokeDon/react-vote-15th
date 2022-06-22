@@ -41,7 +41,7 @@ const useRefreshToken = () => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const refresh = async () => {
-    const response = await axios.post('/refresh/', {
+    const response = await axios.post('/refreshes/', {
       headers: { 'Refresh-Authorization': `${user.token.refreshToken}` },
     });
     // overwrite with a new access token, prev state from the server
