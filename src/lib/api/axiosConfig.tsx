@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API = axios.create({
+export const API = axios.create({
   baseURL: 'https://bankids.click/api',
   headers: {
     'Content-Type': 'application/json',
@@ -8,7 +8,7 @@ const API = axios.create({
   timeout: 2500,
 });
 
-const privateAPI = axios.create({
+export const privateAPI = axios.create({
   baseURL: 'https://bankids.click/api',
   headers: {
     'Content-Type': 'application/json',
@@ -18,7 +18,5 @@ const privateAPI = axios.create({
 
 // const token = JSON.stringify(localStorage.getItem('token'));
 const token =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU1ODMxNzMzLCJpYXQiOjE2NTU4MjgxMzMsImp0aSI6IjUwN2EzN2U0OTIzNTRlNGZiNTdhZDZlMzczNDEzZTg5IiwidXNlcl9pZCI6MjJ9.vqtLa0TCYK0ledvy4ouoUVdCM7Yt7OhmD60rJWOPkL8';
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU1ODcwMTgxLCJpYXQiOjE2NTU4NjY1ODEsImp0aSI6IjE4YTRlNGZmZTg4ZTQ0ZjY5Mzg3NjMzZDBhYjg4N2E2IiwidXNlcl9pZCI6MjJ9.W0JkEHrIN8XZqBO2vWFKQudZdhVGQkkO5ok11pU7LPE';
 privateAPI.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-export default API;

@@ -1,5 +1,4 @@
-import API from './axiosConfig';
-import privateAPI from './axiosConfig';
+import { API, privateAPI } from './axiosConfig';
 export const getCandidates = async (part: string) => {
   const response = await API.get(`/candidates/?part=${part}`);
   return response.data;
