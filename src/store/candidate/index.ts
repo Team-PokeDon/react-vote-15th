@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ICandidate, ICandidateListState } from '../../lib/types/candidates';
-import { getCandidates } from '../../lib/api';
+import { axiosPublic } from '../../lib/api/axios';
 
 const initialState: ICandidateListState = {
   FEList: [],
@@ -11,12 +11,12 @@ const initialState: ICandidateListState = {
 export const getCandidateThunk = createAsyncThunk(
   'candidate/getCandidate',
   async (part: string, { rejectWithValue }) => {
-    const res = await getCandidates(part);
+    const res = await axiosPublic.get(`/candidates/?part=${part}`);
     console.log(res);
     if (!res) {
       rejectWithValue('error');
     }
-    return res.detail;
+    return res.data.detail;
   },
 );
 

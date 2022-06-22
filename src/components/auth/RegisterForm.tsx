@@ -4,7 +4,7 @@ import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import Button from '../common/Button';
-import axios from '../../lib/api/axios';
+import { axiosPublic } from '../../lib/api/axios';
 
 const USER_REGEX = /^[가-힣a-zA-Z]+$/;
 const PWD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -75,7 +75,7 @@ function RegisterForm() {
       return;
     }
     try {
-      const response = await axios.post(
+      const response = await axiosPublic.post(
         REGISTER_URL,
         JSON.stringify({ name: user, password: pwd, email, part }),
         {

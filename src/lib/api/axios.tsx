@@ -2,11 +2,11 @@ import axios from 'axios';
 
 const BASE_URL = 'https://bankids.click/api';
 
-export default axios.create({
+export const axiosPublic = axios.create({
   baseURL: BASE_URL,
+  headers: { 'Content-Type': 'application/json' },
 });
-
-export const axiosPrivate = axios.create({
+export const axiosPrivateInstance = axios.create({
   baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,

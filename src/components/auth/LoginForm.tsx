@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from '../../lib/api/axios';
+import { axiosPublic } from '../../lib/api/axios';
 import { useAppDispatch } from '../../store/app/hooks';
 import Button from '../common/Button';
 import useInput from '../../lib/hooks/useInput';
@@ -26,7 +26,7 @@ function LoginForm() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
+      const response = await axiosPublic.post(
         LOGIN_URL,
         JSON.stringify({ email, password: pwd }),
         {
