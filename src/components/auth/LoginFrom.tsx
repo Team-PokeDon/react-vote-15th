@@ -31,7 +31,7 @@ function LoginForm() {
         JSON.stringify({ email, password: pwd }),
         {
           headers: { 'Content-Type': 'application/json' },
-          // withCredentials: true,
+          withCredentials: true,
         },
       );
       dispatch(setUser(response?.data?.detail));
