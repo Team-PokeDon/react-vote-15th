@@ -74,7 +74,11 @@ function LoginForm() {
             />
             <label htmlFor="persist">&nbsp;이 기기를 신뢰하겠습니까?</label>
           </PersistCheck>
-          <ButtonWithMarginTop cyan fullWidth>
+          <ButtonWithMarginTop
+            cyan
+            fullWidth
+            disabled={!email || !pwd ? true : false}
+          >
             로그인
           </ButtonWithMarginTop>
         </form>

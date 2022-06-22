@@ -97,7 +97,7 @@ function RegisterForm() {
       } else if (err.response?.status === 400) {
         setErrMsg('이미 사용된 이메일 입니다.');
       } else {
-        setErrMsg('회원가입에 실패했습니다.');
+        setErrMsg('알 수 없는 오류가 발생했습니다.');
       }
     }
   };
