@@ -9,8 +9,6 @@ export default axios.create({
   baseURL: BASE_URL,
 });
 
-// 요청에 JWT을 포함시킨다.
-// 요청이 실패하는 경우 interceptor를 통해 토큰 재발급을 진행하고 요청을 다시 수행한다.
 export const axiosPrivate = axios.create({
   baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },

@@ -7,7 +7,8 @@ import { selectUser } from '../../store/auth/authSlice';
 function RequireAuth({ allowedPart }: any) {
   const user = useAppSelector(selectUser);
   const location = useLocation();
-  console.log(user.part);
+  // console.log(location);
+  // console.log(user.part);
   if (user.part === 'FE' || user.part === 'BE') {
     if (user.part === allowedPart) {
       return <Outlet />;

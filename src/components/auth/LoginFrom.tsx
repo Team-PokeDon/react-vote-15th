@@ -42,7 +42,7 @@ function LoginForm() {
       if (!err?.response) {
         setErrMsg('서버가 응답하지 않습니다.');
       } else {
-        setErrMsg('이메일, 비밀번호를 확인해주세요.');
+        setErrMsg('이메일 혹은 비밀번호를 확인해주세요.');
       }
     }
   };
@@ -72,7 +72,7 @@ function LoginForm() {
               onChange={togglePersistCheck}
               checked={persistCheck}
             />
-            <label htmlFor="persist">&nbsp;이 기기를 신뢰하겠습니까?</label>
+            <label htmlFor="persist">&nbsp;자동 로그인</label>
           </PersistCheck>
           <ButtonWithMarginTop
             cyan

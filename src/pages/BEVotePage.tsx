@@ -1,22 +1,23 @@
 import useAxiosPrivate from '../lib/hooks/useAxiosPrivate';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useRefreshToken from '../lib/hooks/useRefreshToken';
-import axios from '../lib/api/axios';
 
 function BEVotePage() {
   const refresh = useRefreshToken();
+  const axiosPrivate = useAxiosPrivate();
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleClick = async (e: any) => {
-    const axiosPrivate = useAxiosPrivate();
+  const handleClick = async () => {
     try {
       const response = await axiosPrivate.post(
         '/votes/',
-        JSON.stringify({ candidate: '8' }),
+        JSON.stringify({
+          candidate: '11',
+        }),
+        {},
       );
-      console.log('투표 성공');
       console.log(response?.data);
     } catch (err: any) {
       console.log(err);

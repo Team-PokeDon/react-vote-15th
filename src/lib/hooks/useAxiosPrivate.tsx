@@ -29,6 +29,7 @@ const useAxiosPrivate = () => {
       async (error) => {
         const prevRequest = error?.config;
         // expire access token == 401 error
+        // 참고영상 status 403이 토큰 만료
         if (error?.response?.status === 401 && !prevRequest?.sent) {
           prevRequest.sent = true;
           const newAccessToken = await refresh(); // 토큰 갱신
