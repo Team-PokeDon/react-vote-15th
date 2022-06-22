@@ -4,16 +4,25 @@ import logo from '../../assets/logo.png';
 import { useAppSelector } from '../../store/app/hooks';
 import { selectUser } from '../../store/auth/authSlice';
 import { media } from '../../lib/styles/theme';
+import useLogout from '../../lib/hooks/useLogout';
 
 function Layout() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const user = useAppSelector(selectUser);
+  const logout = useLogout();
 
+  const handleClickLogout = () => {
+    logout();
+  };
   const handleClickTitle = () => {
     if (pathname && pathname !== '/') {
       navigate('/');
     }
+  };
+
+  const handleClickLogin = () => {
+    navigate('/login');
   };
 
   return (
@@ -32,10 +41,10 @@ function Layout() {
                 <div>
                   {user.name} | {user.part}
                 </div>
-                <button>로그아웃</button>
+                <button onClick={handleClickLogout}>로그아웃</button>
               </>
             ) : (
-              <button>로그인</button>
+              <button onClick={handleClickLogin}>로그인</button>
             )}
           </Profile>
         </Header>
