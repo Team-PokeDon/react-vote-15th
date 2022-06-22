@@ -4,7 +4,6 @@ import RequireAuth from './components/auth/RequireAuth';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import VotePage from './pages/VotePage';
-import NotFoundPage from './pages/NotFoundPage';
 import UnauthorizedPage from './pages/UnauthorizedPage';
 import Main from './pages/Main';
 import ResultPage from './pages/ResultPage';
@@ -12,10 +11,9 @@ function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        {/* public */}
+        <Route index element={<Main />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/" element={<Main />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         <Route path="/result/:part" element={<ResultPage />} />
         {/* private */}
@@ -23,8 +21,6 @@ function App() {
           <Route path="/vote/:part" element={<VotePage />} />
         </Route>
       </Route>
-      {/* catch all */}
-      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

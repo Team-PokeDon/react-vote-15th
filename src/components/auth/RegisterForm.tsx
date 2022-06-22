@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
@@ -7,11 +7,10 @@ import Button from '../common/Button';
 import axios from '../../lib/api/axios';
 
 const USER_REGEX = /^[가-힣a-zA-Z]+$/;
-// 8자 미만, 15자 초과 시 400
 const PWD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const EMAIL_REGEX =
   /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-const REGISTER_URL = '/users/sigups';
+const REGISTER_URL = '/users/signups/';
 
 function RegisterForm() {
   const [user, setUser] = useState('');
@@ -37,6 +36,7 @@ function RegisterForm() {
   const [validPart, setValidPart] = useState(false);
 
   const [errMsg, setErrMsg] = useState('');
+
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
@@ -80,24 +80,24 @@ function RegisterForm() {
         JSON.stringify({ name: user, password: pwd, email, part }),
         {
           headers: { 'Content-Type': 'application/json' },
-          // withCredentials: true,
+          withCredentials: true,
         },
       );
       console.log(JSON.stringify(response?.data));
-      // console.log(JSON.stringify(response));
-      setSuccess(true);
       setUser('');
       setPwd('');
       setMatchPwd('');
       setEmail('');
       setPart('');
+      setSuccess(true);
     } catch (err: any) {
+      console.log(err);
       if (!err?.response) {
         setErrMsg('서버가 응답하지 않습니다.');
       } else if (err.response?.status === 400) {
         setErrMsg('이미 사용된 이메일 입니다.');
       } else {
-        setErrMsg('회원가입에 실패했습니다.');
+        setErrMsg('알 수 없는 오류가 발생했습니다.');
       }
     }
   };
@@ -107,13 +107,12 @@ function RegisterForm() {
         <section>
           <h1>회원가입에 성공했습니다!</h1>
           <Footer>
-            <Link to="/">로그인</Link>
+            <Link to="/login">로그인</Link>
           </Footer>
         </section>
       ) : (
         <section>
           <form onSubmit={handleSubmit}>
-            {/* username */}
             <InputWrapper>
               <div className="input-positioner">
                 <StyledInput
@@ -141,9 +140,7 @@ function RegisterForm() {
               <Instruction>
                 <span
                   className={
-                    userFocus && user && !validName
-                      ? 'instruction'
-                      : 'offscreen'
+                    userFocus && user && !validName ? 'on-screen' : 'off-screen'
                   }
                 >
                   이름은 한글 혹은 영문이어야 합니다.
@@ -151,7 +148,6 @@ function RegisterForm() {
               </Instruction>
             </InputWrapper>
 
-            {/* password */}
             <InputWrapper>
               <div className="input-positioner">
                 <StyledInput
@@ -177,15 +173,14 @@ function RegisterForm() {
               <Instruction>
                 <span
                   className={
-                    pwdFocus && pwd && !validPwd ? 'instruction' : 'offscreen'
+                    pwdFocus && pwd && !validPwd ? 'on-screen' : 'off-screen'
                   }
                 >
-                  비밀번호는 8자 이상의 영문과 숫자 조합이어야 합니다.
+                  비밀번호는 8~15자의 영문과 숫자 조합이어야 합니다.
                 </span>
               </Instruction>
             </InputWrapper>
 
-            {/* confirm password */}
             <InputWrapper>
               <div className="input-positioner">
                 <StyledInput
@@ -212,8 +207,8 @@ function RegisterForm() {
                 <span
                   className={
                     matchFocus && matchPwd && !validMatch
-                      ? 'instruction'
-                      : 'offscreen'
+                      ? 'on-screen'
+                      : 'off-screen'
                   }
                 >
                   비밀번호가 일치하지 않습니다.
@@ -221,7 +216,6 @@ function RegisterForm() {
               </Instruction>
             </InputWrapper>
 
-            {/* email */}
             <InputWrapper>
               <div className="input-positioner">
                 <StyledInput
@@ -248,9 +242,9 @@ function RegisterForm() {
               <Instruction>
                 <span
                   className={
-                    emailFocus && email && !validName
-                      ? 'instruction'
-                      : 'offscreen'
+                    emailFocus && email && !validEmail
+                      ? 'on-screen'
+                      : 'off-screen'
                   }
                 >
                   올바른 이메일 형식이 아닙니다.
@@ -310,7 +304,7 @@ const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   & + & {
-    margin-top: 1rem;
+    margin-top: 1.1rem;
   }
   .input-positioner {
     display: flex;
@@ -351,25 +345,24 @@ const ValidIcon = styled.div`
 const Instruction = styled.div`
   display: flex;
   align-items: center;
-  .instruction {
+  font-size: 0.8rem;
+  margin-top: 0.8rem;
+  .on-screen {
     color: red;
-    font-size: 0.8rem;
-    margin-top: 0.8rem;
   }
-  .offscreen {
-    position: absolute;
-    left: -9999px;
+  .off-screen {
+    color: white;
   }
 `;
 
 const ButtonWithMarginTop = styled(Button)`
-  margin-top: 1rem;
+  margin-top: 1.1rem;
 `;
 
 const Footer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 1rem;
+  margin-top: 1.1rem;
   a {
     text-align: right;
     color: ${({ theme }) => theme.palette.cyan[7]};
@@ -388,7 +381,7 @@ const Footer = styled.div`
 `;
 
 const RadioWrapper = styled.div`
-  margin-top: 1.5rem;
+  margin-top: 1.1rem;
   margin-bottom: 0.5rem;
   color: 1px solid ${({ theme }) => theme.palette.gray[1]};
   label {
@@ -396,6 +389,7 @@ const RadioWrapper = styled.div`
     color: ${({ theme }) => theme.palette.gray[6]};
     &:hover {
       color: ${({ theme }) => theme.palette.gray[9]};
+      cursor: pointer;
     }
   }
   input[type='radio']:checked + label {

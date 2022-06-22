@@ -1,10 +1,13 @@
 import axios from 'axios';
 
+const BASE_URL = 'https://bankids.click/api';
+
 export default axios.create({
-  baseURL: 'https://3ebb92ce-e5ba-4a57-9798-d1290e7ce95b.mock.pstmn.io/api',
+  baseURL: BASE_URL,
 });
 
-// const access_token = JSON.stringify(localStorage.getItem('access_token'));
-// API.defaults.headers.common['Authorization'] = access_token;
-
-// export default API;
+export const axiosPrivate = axios.create({
+  baseURL: BASE_URL,
+  headers: { 'Content-Type': 'application/json' },
+  withCredentials: true,
+});
