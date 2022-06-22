@@ -8,7 +8,7 @@ export const postVote = async (id: number) => {
   return response.data;
 };
 
-export const constLogout = async () => {
+export const postLogout = async () => {
   const response = await privateAPI.post(`/users/logouts`);
   return response.data;
 };

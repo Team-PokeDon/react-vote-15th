@@ -6,14 +6,11 @@ function Main() {
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.auth.user);
   console.log(user);
-  const handleClickVote = useCallback(() => {
-    if (user.part) {
-      navigate(`/vote/${user.part}`);
-    } else {
-      if (confirm(`로그인이 필요한 페이지입니다. 로그인하시겠습니까?`)) {
-        navigate(`/login`);
-      }
-    }
+  const handleClickFEVote = useCallback(() => {
+    navigate(`/vote/FE`);
+  }, []);
+  const handleClickBEVote = useCallback(() => {
+    navigate(`/vote/BE`);
   }, []);
   const handleClickFEResult = useCallback(() => {
     navigate(`/result/FE`);
@@ -24,7 +21,18 @@ function Main() {
 
   return (
     <Wrapper>
-      <button onClick={handleClickVote}>투표하러 가기</button>
+      <button
+        onClick={handleClickFEVote}
+        disabled={user.part == 'BE' ? true : false}
+      >
+        FE 투표하기
+      </button>
+      <button
+        onClick={handleClickBEVote}
+        disabled={user.part == 'FE' ? true : false}
+      >
+        BE 투표하기
+      </button>
       <button onClick={handleClickFEResult}>FE 결과보기</button>
       <button onClick={handleClickBEResult}>BE 결과 보기</button>
     </Wrapper>
@@ -36,7 +44,7 @@ export default Main;
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: 16px;
+  grid-gap: 16px 48px;
   width: 466px;
   margin-top: 120px;
 
@@ -47,19 +55,22 @@ const Wrapper = styled.div`
     font-size: 24px;
     color: white;
     font-weight: 700;
-    background-color: ${({ theme }) => theme.palette.gray[4]};
+    background-color: #fedd48;
     :hover {
-      background-color: ${({ theme }) => theme.palette.gray[5]};
+      background-color: #f3d445;
     }
   }
 
-  button:first-child {
-    grid-column: span 2;
+  button:first-child,
+  button:nth-child(2) {
     height: 200px;
     background-color: ${({ theme }) => theme.palette.cyan[4]};
-    font-size: 48px;
+    font-size: 36px;
     :hover {
       background-color: ${({ theme }) => theme.palette.cyan[5]};
+    }
+    :disabled {
+      background-color: ${({ theme }) => theme.palette.gray[3]};
     }
   }
 `;

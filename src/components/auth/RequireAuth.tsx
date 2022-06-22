@@ -6,6 +6,7 @@ import { selectUser } from '../../store/auth/authSlice';
 function RequireAuth() {
   const user = useAppSelector(selectUser);
   const location = useLocation();
+  console.log('asdf');
   const { part } = useParams();
   if (user.part === 'FE' || user.part === 'BE') {
     if (user.part === part) {
@@ -15,7 +16,11 @@ function RequireAuth() {
       return <UnauthorizedPage />;
     }
   } else {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    if (confirm('로그인이 필요한 페이지입니다. 로그인하시겠습니까?')) {
+      return <Navigate to="/login" state={{ from: location }} replace />;
+    } else {
+      return <Navigate to="/" replace />;
+    }
   }
 }
 

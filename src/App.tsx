@@ -8,17 +8,15 @@ import NotFoundPage from './pages/NotFoundPage';
 import UnauthorizedPage from './pages/UnauthorizedPage';
 import Main from './pages/Main';
 import ResultPage from './pages/ResultPage';
-import PersistLogin from './components/auth/PersistLogin';
-import HomePage from './pages/HomePage';
-
+import Test from './pages/Test';
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route index element={<HomePage />} />
+        <Route index element={<Main />} />
+        <Route path="test" element={<Test />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/" element={<Main />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         <Route path="/result/:part" element={<ResultPage />} />
         {/* private */}

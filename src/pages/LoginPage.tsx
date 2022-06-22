@@ -1,5 +1,5 @@
 import AuthTemplate from '../components/auth/AuthTemplate';
-import LoginForm from '../components/auth/LoginFrom';
+import LoginForm from '../components/auth/LoginForm';
 
 function LoginPage() {
   return (
