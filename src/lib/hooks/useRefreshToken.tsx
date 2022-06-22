@@ -8,6 +8,8 @@ const useRefreshToken = () => {
   // console.log(`before ${user.token.accessToken}`);
   // 리프레시 토큰은 초기화 되어 없어짐
   const refresh = async () => {
+    // TODO: refresh token은 header에 담는것이 아닌 쿠키에 담아서 보내야함
+    // withCredentials: true로 변경!!
     const response = await axios.post(
       '/refreshes/',
       {},
