@@ -18,5 +18,5 @@ export const privateAPI = axios.create({
 
 // const token = JSON.stringify(localStorage.getItem('token'));
 const token =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU1ODcwMTgxLCJpYXQiOjE2NTU4NjY1ODEsImp0aSI6IjE4YTRlNGZmZTg4ZTQ0ZjY5Mzg3NjMzZDBhYjg4N2E2IiwidXNlcl9pZCI6MjJ9.W0JkEHrIN8XZqBO2vWFKQudZdhVGQkkO5ok11pU7LPE';
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU1ODg2Njk5LCJpYXQiOjE2NTU4ODMwOTksImp0aSI6IjhiMThjNWIxYTFiMjRhNjJhMzIzODUxMTdhMDkzZTQ1IiwidXNlcl9pZCI6MjJ9.NPkc2-819T7sdsqeBIH6eML13pE_rly7FcOirQb1Zm8';
 privateAPI.defaults.headers.common['Authorization'] = `Bearer ${token}`;
