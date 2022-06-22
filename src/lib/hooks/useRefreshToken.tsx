@@ -21,7 +21,7 @@ const useRefreshToken = () => {
     // overwrite with a new access token, prev state from the server
     // TODO: 리프레시 시 로그인 시와 동일한 정보를 다시 수신하여 protect된 페이지에 접근 (비밀버호는 제외!)
     dispatch(refreshAccessToken(response?.data?.detail));
-    // console.log(`after ${user.token.accessToken}`);
+    console.log(`after ${JSON.stringify(user.token.accessToken)}`);
     // return the new access token
     return response.data.detail.access_token;
   };

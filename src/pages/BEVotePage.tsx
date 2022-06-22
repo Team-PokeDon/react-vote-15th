@@ -14,7 +14,7 @@ function BEVotePage() {
       const response = await axiosPrivate.post(
         '/votes/',
         JSON.stringify({
-          candidate: '11',
+          candidate: '3',
         }),
         {},
       );
