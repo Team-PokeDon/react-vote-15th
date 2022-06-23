@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-type TAuthTemplateType = {
+type TAuthTemplateProps = {
   children: React.ReactNode;
 };
 
-const AuthTemplate = ({ children }: TAuthTemplateType) => {
+function AuthTemplate({ children }: TAuthTemplateProps) {
   return (
     <AuthTemplateBlock>
       <WhiteBox>
@@ -16,7 +16,7 @@ const AuthTemplate = ({ children }: TAuthTemplateType) => {
       </WhiteBox>
     </AuthTemplateBlock>
   );
-};
+}
 
 export default AuthTemplate;
 

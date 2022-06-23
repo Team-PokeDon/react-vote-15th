@@ -4,7 +4,7 @@ import logo from '../../assets/logo.png';
 import { useAppSelector } from '../../store/app/hooks';
 import { selectUser } from '../../store/auth/authSlice';
 import { media } from '../../lib/styles/theme';
-import useLogout from '../../lib/hooks/useLogout';
+import useLogout from '../../lib/hooks/auth/useLogout';
 
 function Layout() {
   const navigate = useNavigate();
@@ -15,6 +15,7 @@ function Layout() {
   const handleClickLogout = () => {
     logout();
   };
+
   const handleClickTitle = () => {
     if (pathname && pathname !== '/') {
       navigate('/');
@@ -74,6 +75,7 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
 const Title = styled.div`
   display: flex;
   align-items: center;
@@ -84,6 +86,7 @@ const Title = styled.div`
     color: ${({ theme }) => theme.palette.cyan[8]};
   }
 `;
+
 const Logo = styled.div`
   background-image: url(${logo});
   background-size: contain;
@@ -98,6 +101,7 @@ const Logo = styled.div`
     cursor: pointer;
   }
 `;
+
 const Profile = styled.div`
   display: flex;
   align-items: center;
@@ -122,6 +126,7 @@ const Profile = styled.div`
     border-radius: 14.5px;
   }
 `;
+
 const Content = styled.div`
   max-width: 100%;
   display: flex;

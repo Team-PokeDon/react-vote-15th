@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAppSelector } from '../../store/app/hooks';
-// import { selectPersist, selectUser } from '../../store/auth/authSlice';
-import useRefreshToken from '../../lib/hooks/useRefreshToken';
-import useLocalStorage from '../../lib/hooks/useLocalStorage';
+import useRefreshToken from '../../lib/hooks/auth/useRefreshToken';
+import useLocalStorage from '../../lib/hooks/auth/useLocalStorage';
 import { selectUser } from '../../store/auth/authSlice';
+import { isJSDocLink } from 'typescript';
 
 function PersistLogin() {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,37 +15,40 @@ function PersistLogin() {
   // @ts-expect-error
   useEffect(() => {
     let isMounted = true;
-    // access 토큰 만료 여부를 검사하고 만료 시 새로운 access token을 발급
     const verifyRefreshToken = async () => {
       try {
         await refresh();
-        // RequireAuth component로 향하기 전 new access token을 얻음
-        // global state에 기존의 데이터를 set하는 과정 포함!
       } catch (err) {
         console.error(err);
       } finally {
-        // escape loading loop
-        // unmounted component에 대한 set 방지
-        isMounted && setIsLoading(false);
+        isMounted && setIsLoading(false); // escape memory leaks
       }
     };
-    // 권한이 필요한 페이지에 접근하는 경우 매번이 아닌 App state가 비어있는 경우만 검사!
+    // 새로고침 시에만 verify
     !user?.token.accessToken ? verifyRefreshToken() : setIsLoading(false);
-    return () => (isMounted = false); // <-- 해결해야됨
+    return () => (isMounted = false);
   }, []);
 
-  // test
+  // TODO: delete following test code
   useEffect(() => {
     console.log(`isLoading: ${isLoading}`);
     console.log(`aT: ${JSON.stringify(user?.token.accessToken)}`);
   }, [isLoading]);
 
-  // persist에 따른 확인 로직 추가
-  // persist 체크 컴포넌트 로그인에 추가
-  // return <>{isLoading ? <p>Loading...</p> : <Outlet />}</>;
-  return (
-    <>{!persist ? <Outlet /> : isLoading ? <p>Loading...</p> : <Outlet />}</>
-  );
+  // TODO: Loading -> loading spinner
+  if (!persist) {
+    return <Outlet />;
+  } else {
+    if (isLoading) {
+      return <p>Loading...</p>;
+    } else {
+      return <Outlet />;
+    }
+  }
+  // TODO: delete following comment
+  // return (
+  //   <>{!persist ? <Outlet /> : isLoading ? <p>Loading...</p> : <Outlet />}</>
+  // );
 }
 
 export default PersistLogin;
