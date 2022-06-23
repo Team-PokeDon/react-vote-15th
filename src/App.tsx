@@ -16,7 +16,6 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         <Route path="/result/:part" element={<ResultPage />} />
-        {/* private */}
         <Route element={<RequireAuth />}>
           <Route path="/vote/:part" element={<VotePage />} />
         </Route>

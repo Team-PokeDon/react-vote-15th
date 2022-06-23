@@ -1,6 +1,9 @@
+import axios from 'axios';
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import useAxiosPrivate from '../lib/hooks/auth/useAxiosPrivate';
+import useRefreshToken from '../lib/hooks/auth/useRefreshToken';
 import { useAppSelector } from '../store/app/hooks';
 function Main() {
   const navigate = useNavigate();
@@ -19,8 +22,31 @@ function Main() {
     navigate(`/result/BE`);
   }, []);
 
+  // TODO: delete following test code
+  const refresh = useRefreshToken();
+  const axiosPrivate = useAxiosPrivate();
+  const handleClick = async () => {
+    try {
+      const response = await axiosPrivate.post(
+        '/votes/',
+        JSON.stringify({
+          candidate: '3',
+        }),
+        {},
+      );
+      console.log(response?.data);
+      console.log('투표 성공');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+      }
+    }
+  };
+
   return (
     <Wrapper>
+      <button onClick={() => refresh()}>refresh access token</button>
+      <button onClick={handleClick}>vote with access token</button>
       <button
         onClick={handleClickFEVote}
         disabled={user.part == 'BE' ? true : false}
