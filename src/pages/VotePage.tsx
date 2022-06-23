@@ -55,6 +55,7 @@ function VotePage() {
             case 401:
               console.log(e.response.data);
               alert('토큰 인증 오류');
+              // TODO: loginPage로 navigate, login 시 본 페이지로 복귀
               // 토큰 부분 완성되면 마무리하기
               break;
             default:
