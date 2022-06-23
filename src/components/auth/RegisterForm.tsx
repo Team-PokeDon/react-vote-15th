@@ -66,7 +66,7 @@ function RegisterForm() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // if button enabled with JS hack
+    // JavaScript Hacking에 의한 버튼 활성화 회피
     const temp1 = USER_REGEX.test(user);
     const temp2 = PWD_REGEX.test(pwd);
     const temp3 = EMAIL_REGEX.test(email);
@@ -83,7 +83,6 @@ function RegisterForm() {
           withCredentials: true,
         },
       );
-      console.log(JSON.stringify(response?.data));
       setUser('');
       setPwd('');
       setMatchPwd('');
@@ -91,7 +90,6 @@ function RegisterForm() {
       setPart('');
       setSuccess(true);
     } catch (err: any) {
-      console.log(err);
       if (!err?.response) {
         setErrMsg('서버가 응답하지 않습니다.');
       } else if (err.response?.status === 400) {
@@ -143,7 +141,7 @@ function RegisterForm() {
                     userFocus && user && !validName ? 'on-screen' : 'off-screen'
                   }
                 >
-                  이름은 한글 혹은 영문이어야 합니다.
+                  한글 혹은 영문이어야 합니다.
                 </span>
               </Instruction>
             </InputWrapper>
@@ -176,7 +174,7 @@ function RegisterForm() {
                     pwdFocus && pwd && !validPwd ? 'on-screen' : 'off-screen'
                   }
                 >
-                  비밀번호는 8~15자의 영문과 숫자 조합이어야 합니다.
+                  8~15자의 영문 소문자와 숫자 조합이어야 합니다.
                 </span>
               </Instruction>
             </InputWrapper>
@@ -211,7 +209,7 @@ function RegisterForm() {
                       : 'off-screen'
                   }
                 >
-                  비밀번호가 일치하지 않습니다.
+                  일치하지 않습니다.
                 </span>
               </Instruction>
             </InputWrapper>
@@ -247,7 +245,7 @@ function RegisterForm() {
                       : 'off-screen'
                   }
                 >
-                  올바른 이메일 형식이 아닙니다.
+                  올바른 형식이 아닙니다.
                 </span>
               </Instruction>
             </InputWrapper>

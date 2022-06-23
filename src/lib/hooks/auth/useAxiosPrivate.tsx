@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { useAppSelector } from '../../store/app/hooks';
-import { selectUser } from '../../store/auth/authSlice';
-import { axiosPrivateInstance } from '../api/axios';
+import { useAppSelector } from '../../../store/app/hooks';
+import { selectUser } from '../../../store/auth/authSlice';
+import { axiosPrivateInstance } from '../../api/axios';
 import useRefreshToken from './useRefreshToken';
 
 const useAxiosPrivate = () => {

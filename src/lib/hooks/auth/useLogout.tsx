@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../store/app/hooks';
-import { selectUser, resetUser } from '../../store/auth/authSlice';
-import { axiosPublic } from '../api/axios';
+import { useAppSelector } from '../../../store/app/hooks';
+import { selectUser, resetUser } from '../../../store/auth/authSlice';
+import { axiosPublic } from '../../api/axios';
 
 const useLogout = () => {
   const user = useAppSelector(selectUser);

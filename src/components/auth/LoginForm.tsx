@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { axiosPublic } from '../../lib/api/axios';
 import { useAppDispatch } from '../../store/app/hooks';
 import Button from '../common/Button';
-import useInput from '../../lib/hooks/useInput';
-import useToggle from '../../lib/hooks/useToggle';
+import useInput from '../../lib/hooks/auth/useInput';
+import useToggle from '../../lib/hooks/auth/useToggle';
 import { setUser } from '../../store/auth/authSlice';
 
 const LOGIN_URL = '/users/logins/';

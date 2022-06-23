@@ -4,7 +4,7 @@ import logo from '../../assets/logo.png';
 import { useAppSelector } from '../../store/app/hooks';
 import { selectUser } from '../../store/auth/authSlice';
 import { media } from '../../lib/styles/theme';
-import useLogout from '../../lib/hooks/useLogout';
+import useLogout from '../../lib/hooks/auth/useLogout';
 
 function Layout() {
   const navigate = useNavigate();

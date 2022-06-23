@@ -2,8 +2,8 @@ import { Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAppSelector } from '../../store/app/hooks';
 // import { selectPersist, selectUser } from '../../store/auth/authSlice';
-import useRefreshToken from '../../lib/hooks/useRefreshToken';
-import useLocalStorage from '../../lib/hooks/useLocalStorage';
+import useRefreshToken from '../../lib/hooks/auth/useRefreshToken';
+import useLocalStorage from '../../lib/hooks/auth/useLocalStorage';
 import { selectUser } from '../../store/auth/authSlice';
 
 function PersistLogin() {
