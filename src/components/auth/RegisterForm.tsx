@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import Button from '../common/Button';
 import { axiosPublic } from '../../lib/api/axios';
+import axios from 'axios';
 
 const USER_REGEX = /^[가-힣a-zA-Z]+$/;
 const PWD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -78,10 +79,7 @@ function RegisterForm() {
       const response = await axiosPublic.post(
         REGISTER_URL,
         JSON.stringify({ name: user, password: pwd, email, part }),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-        },
+        {},
       );
       setUser('');
       setPwd('');
@@ -89,13 +87,15 @@ function RegisterForm() {
       setEmail('');
       setPart('');
       setSuccess(true);
-    } catch (err: any) {
-      if (!err?.response) {
-        setErrMsg('서버가 응답하지 않습니다.');
-      } else if (err.response?.status === 400) {
-        setErrMsg('이미 사용된 이메일 입니다.');
-      } else {
-        setErrMsg('알 수 없는 오류가 발생했습니다.');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (!error.response) {
+          setErrMsg('서버가 응답하지 않습니다.');
+        } else if (error.response.status === 400) {
+          setErrMsg('이미 사용된 이메일 입니다.');
+        } else {
+          setErrMsg('알 수 없는 오류가 발생했습니다.');
+        }
       }
     }
   };
