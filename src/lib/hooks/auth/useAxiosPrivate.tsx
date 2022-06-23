@@ -27,20 +27,22 @@ function useAxiosPrivate() {
       async (error) => {
         const prevRequest = error?.config;
         if (error?.response?.status === 403 && !prevRequest?.sent) {
-          // access token expired
+          // access token expired -> refresh access token -> request prevRequest
           prevRequest.sent = true;
           const newAccessToken = await refresh();
           prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
           return axiosPrivateInstance(prevRequest);
         }
-        return Promise.reject(error); // refresh token expired
+        return Promise.reject(error); // refresh token expired -> navigate to loginPage
       },
     );
+
     return () => {
       axiosPrivateInstance.interceptors.request.eject(requestIntercept);
       axiosPrivateInstance.interceptors.response.eject(responseIntercept);
     };
   }, [user, refresh]);
+
   return axiosPrivateInstance; // return instance including interceptors
 }
 

@@ -1,6 +1,6 @@
 import useLocalStorage from './useLocalStorage';
 
-const useToggle = (key: any, initValue: any) => {
+function useToggle(key: string, initValue: any) {
   const [value, setValue] = useLocalStorage(key, initValue);
   const toggle = (value: any) => {
     setValue((prev: any) => {
@@ -8,6 +8,6 @@ const useToggle = (key: any, initValue: any) => {
     });
   };
   return [value, toggle];
-};
+}
 
 export default useToggle;
