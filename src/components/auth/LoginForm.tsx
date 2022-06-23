@@ -7,12 +7,12 @@ import Button from '../common/Button';
 import useInput from '../../lib/hooks/auth/useInput';
 import useToggle from '../../lib/hooks/auth/useToggle';
 import { setUser } from '../../store/auth/authSlice';
+import axios from 'axios';
 
 const LOGIN_URL = '/users/logins/';
 
 function LoginForm() {
   const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
   const location = useLocation();
   // @ts-expect-error
@@ -23,26 +23,25 @@ function LoginForm() {
   const [errMsg, setErrMsg] = useState('');
   const [persistCheck, togglePersistCheck] = useToggle('persist', false); // localStorage
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await axiosPublic.post(
         LOGIN_URL,
         JSON.stringify({ email, password: pwd }),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-        },
+        {},
       );
       dispatch(setUser(response?.data?.detail));
       resetEmail();
       setPwd('');
       navigate(from, { replace: true });
-    } catch (err: any) {
-      if (!err?.response) {
-        setErrMsg('서버가 응답하지 않습니다.');
-      } else {
-        setErrMsg('이메일 혹은 비밀번호를 확인해주세요.');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (!error?.response) {
+          setErrMsg('서버가 응답하지 않습니다.');
+        } else {
+          setErrMsg('이메일 혹은 비밀번호를 확인해주세요.');
+        }
       }
     }
   };
@@ -150,5 +149,4 @@ const PersistCheck = styled.div`
       cursor: pointer;
     }
   }
-  // TODO: checkbox styling
 `;

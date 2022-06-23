@@ -37,7 +37,6 @@ function RegisterForm() {
   const [validPart, setValidPart] = useState(false);
 
   const [errMsg, setErrMsg] = useState('');
-
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
@@ -89,9 +88,9 @@ function RegisterForm() {
       setSuccess(true);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (!error.response) {
+        if (!error?.response) {
           setErrMsg('서버가 응답하지 않습니다.');
-        } else if (error.response.status === 400) {
+        } else if (error.response?.status === 400) {
           setErrMsg('이미 사용된 이메일 입니다.');
         } else {
           setErrMsg('알 수 없는 오류가 발생했습니다.');
