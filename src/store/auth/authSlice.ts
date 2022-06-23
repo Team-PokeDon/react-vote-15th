@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IAccessToken, IFetchedUser, IUser } from '../../lib/types/users';
+import { IFetchedUser, IUser } from '../../lib/types/users';
 import { RootState } from '../app/store';
 
 type TAuthState = {
@@ -14,7 +14,6 @@ const initialState: TAuthState = {
     part: '',
     token: {
       accessToken: '',
-      refreshToken: '',
     },
   },
 };
@@ -29,7 +28,6 @@ export const authSlice = createSlice({
       state.user.email = action.payload.email;
       state.user.part = action.payload.part;
       state.user.token.accessToken = action.payload.token.access_token;
-      state.user.token.refreshToken = action.payload.token.refresh_token;
     },
     resetUser: (state) => {
       state.user.id = '';
@@ -37,7 +35,6 @@ export const authSlice = createSlice({
       state.user.email = '';
       state.user.part = '';
       state.user.token.accessToken = '';
-      state.user.token.refreshToken = '';
     },
   },
 });

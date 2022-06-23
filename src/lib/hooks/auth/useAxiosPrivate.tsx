@@ -33,7 +33,7 @@ function useAxiosPrivate() {
           prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
           return axiosPrivateInstance(prevRequest);
         }
-        return Promise.reject(error); // refresh token expired -> navigate to loginPage
+        return Promise.reject(error); // refresh token expired (again 401) -> navigate to loginPage
       },
     );
 

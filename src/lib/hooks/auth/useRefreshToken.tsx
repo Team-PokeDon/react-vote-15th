@@ -8,7 +8,7 @@ function useRefreshToken() {
   // TODO: delete console.log
   console.log(`before refresh: ${user.token.accessToken}`);
   const refresh = async () => {
-    const response = await axiosPublic.get('/refreshes/', {});
+    const response = await axiosPublic.post('/refreshes/', {}, {});
     // TODO: delete console.log
     console.log(response?.data?.detail);
     dispatch(setUser(response?.data?.detail));

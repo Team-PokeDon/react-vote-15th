@@ -9,8 +9,6 @@ import useToggle from '../../lib/hooks/auth/useToggle';
 import { setUser } from '../../store/auth/authSlice';
 import axios from 'axios';
 
-const LOGIN_URL = '/users/logins/';
-
 function LoginForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -27,10 +25,15 @@ function LoginForm() {
     e.preventDefault();
     try {
       const response = await axiosPublic.post(
-        LOGIN_URL,
+        '/users/logins/',
         JSON.stringify({ email, password: pwd }),
         {},
       );
+      // access token으로 이미 유저의 정보를 보내주고 있는데
+      // 데이터를 추가로 보내줄 필요가 있는가?
+      // TODO: access token에 어떤 정보가 담기는지 확인!
+      // user의 데이터중 이름을 제외한 민감한 정보는 access token에 담아서 보내주면됨
+      // jwt_decode
       dispatch(setUser(response?.data?.detail));
       resetEmail();
       setPwd('');
@@ -40,7 +43,7 @@ function LoginForm() {
         if (!error?.response) {
           setErrMsg('서버가 응답하지 않습니다.');
         } else {
-          setErrMsg('이메일 혹은 비밀번호를 확인해주세요.');
+          setErrMsg('이메일, 비밀번호를 확인해주세요.');
         }
       }
     }

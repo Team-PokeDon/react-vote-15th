@@ -7,6 +7,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { GlobalStyle } from './lib/styles/global-style';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './lib/styles/theme';
+import { disableReactDevTools } from '@fvilers/disable-react-devtools';
+
+if (process.env.NODE_ENV === 'production') {
+  disableReactDevTools();
+}
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);

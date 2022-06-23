@@ -7,7 +7,7 @@ function useLogout() {
   const logout = async () => {
     dispatch(resetUser);
     try {
-      const response = await axiosPublic.post('/logout/', {});
+      const response = await axiosPublic.post('/logouts/', {}, {});
     } catch (error) {
       console.error(error);
     }
