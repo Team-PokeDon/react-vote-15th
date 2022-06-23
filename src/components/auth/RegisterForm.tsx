@@ -66,7 +66,6 @@ function RegisterForm() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // JavaScript Hacking에 의한 버튼 활성화 회피
     const temp1 = USER_REGEX.test(user);
     const temp2 = PWD_REGEX.test(pwd);
     const temp3 = EMAIL_REGEX.test(email);
