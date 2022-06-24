@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import useAxiosPrivate from '../lib/hooks/auth/useAxiosPrivate';
-import useRefreshToken from '../lib/hooks/auth/useRefreshToken';
+import useAxiosPrivate from '../lib/hooks/api/useAxiosPrivate';
+import useRefreshToken from '../lib/hooks/api/useRefreshToken';
 import { useAppSelector } from '../store/app/hooks';
 function Main() {
   const navigate = useNavigate();
@@ -49,13 +49,13 @@ function Main() {
       <button onClick={handleClick}>vote with access token</button>
       <button
         onClick={handleClickFEVote}
-        disabled={user.part == 'BE' ? true : false}
+        // disabled={user.part == 'BE' ? true : false}
       >
         FE 투표하기
       </button>
       <button
         onClick={handleClickBEVote}
-        disabled={user.part == 'FE' ? true : false}
+        // disabled={user.part == 'FE' ? true : false}
       >
         BE 투표하기
       </button>

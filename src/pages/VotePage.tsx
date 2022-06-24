@@ -2,10 +2,10 @@ import styled, { css } from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/app/hooks';
 import Candidate from '../components/vote/Candidate';
-import { getCandidateThunk } from '../store/candidate';
+import { getCandidateThunk } from '../store/slices/candidateSlice';
 import { useEffect, useState, useRef } from 'react';
 import Loading from '../components/common/Loading';
-import useAxiosPrivate from '../lib/hooks/auth/useAxiosPrivate';
+import useAxiosPrivate from '../lib/hooks/useAxiosPrivate';
 export type TSelectState = {
   id: number | null;
   user_name: string | null;

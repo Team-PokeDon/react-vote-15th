@@ -1,13 +1,15 @@
 import { useDispatch } from 'react-redux';
-import { resetUser } from '../../../store/auth/authSlice';
-import { axiosPublic } from '../../api/axios';
+import { resetUser } from '../../../store/slices/authSlice';
+import useAxiosPrivate from '../api/useAxiosPrivate';
 
 function useLogout() {
   const dispatch = useDispatch();
+  const axiosPrivate = useAxiosPrivate();
+
   const logout = async () => {
     dispatch(resetUser());
     try {
-      const response = await axiosPublic.post('/logouts/', {}, {});
+      const response = await axiosPrivate.post('/logouts/', {}, {});
     } catch (error) {
       console.error(error);
     }

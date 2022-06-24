@@ -6,12 +6,12 @@ import { useAppDispatch } from '../../store/app/hooks';
 import Button from '../common/Button';
 import useInput from '../../lib/hooks/auth/useInput';
 import useToggle from '../../lib/hooks/auth/useToggle';
-import { setUser } from '../../store/auth/authSlice';
+import { setUser } from '../../store/slices/authSlice';
 import axios from 'axios';
-import jwt_decode from 'jwt-decode';
 
 function LoginForm() {
   const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
   const location = useLocation();
   // @ts-expect-error
