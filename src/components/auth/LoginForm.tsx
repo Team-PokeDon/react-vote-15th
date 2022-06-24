@@ -8,6 +8,7 @@ import useInput from '../../lib/hooks/auth/useInput';
 import useToggle from '../../lib/hooks/auth/useToggle';
 import { setUser } from '../../store/slices/authSlice';
 import axios from 'axios';
+import useDecodeAccessToken from '../../lib/hooks/api/useDecodeAccessToken';
 import { isElementAccessChain } from 'typescript';
 import jwt_decode from 'jwt-decode';
 
@@ -32,24 +33,18 @@ function LoginForm() {
         JSON.stringify({ email, password: pwd }),
         {},
       );
-      console.log(response?.data);
-      const fetchedEmail: string = response?.data?.detail?.email;
-      const fetchedAccessToken: string = response?.data?.detail?.access_token;
-      console.log('fetchedEmail: ');
-      console.log(fetchedEmail);
-      console.log('fetchedAccessToken: ');
-      console.log(fetchedAccessToken);
-      // const decoded = jwt_decode(fetchedAccessToken);
-      // console.log('decoded: ');
-      // console.log(decoded);
+      console.log(response);
+      const fetchedEmail = response.data.detail.email;
+      const fetchedAccessToken = response.data.detail.token.access_token;
 
-      // dispatch(
-      //   setUser({ email: fetchedEmail, accessToken: fetchedAccessToken }),
-      // );
+      dispatch(
+        setUser({ email: fetchedEmail, accessToken: fetchedAccessToken }),
+      );
       resetEmail();
       setPwd('');
       navigate(from, { replace: true });
     } catch (error) {
+      console.error(error);
       if (axios.isAxiosError(error)) {
         if (!error?.response) {
           setErrMsg('서버가 응답하지 않습니다.');
