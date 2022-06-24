@@ -5,7 +5,7 @@ import { axiosPublic } from '../../api/axios';
 function useLogout() {
   const dispatch = useDispatch();
   const logout = async () => {
-    dispatch(resetUser);
+    dispatch(resetUser());
     try {
       const response = await axiosPublic.post('/logouts/', {}, {});
     } catch (error) {

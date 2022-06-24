@@ -8,6 +8,7 @@ import useInput from '../../lib/hooks/auth/useInput';
 import useToggle from '../../lib/hooks/auth/useToggle';
 import { setUser } from '../../store/auth/authSlice';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 function LoginForm() {
   const dispatch = useAppDispatch();
@@ -29,12 +30,12 @@ function LoginForm() {
         JSON.stringify({ email, password: pwd }),
         {},
       );
-      // access token으로 이미 유저의 정보를 보내주고 있는데
-      // 데이터를 추가로 보내줄 필요가 있는가?
-      // TODO: access token에 어떤 정보가 담기는지 확인!
-      // user의 데이터중 이름을 제외한 민감한 정보는 access token에 담아서 보내주면됨
-      // jwt_decode
-      dispatch(setUser(response?.data?.detail));
+      console.log(response?.data);
+      const fetchedEmail: string = response?.data?.detail?.email;
+      const fetchedAccessToken: string = response?.data?.detail?.access_token;
+      dispatch(
+        setUser({ email: fetchedEmail, accessToken: fetchedAccessToken }),
+      );
       resetEmail();
       setPwd('');
       navigate(from, { replace: true });
