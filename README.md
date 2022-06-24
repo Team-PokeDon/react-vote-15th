@@ -30,7 +30,7 @@
 ## 선택 요건
 
 - API Fetch는 어떤 방식을 사용하든 무방합니다 (axios, Fetch API, $.ajax)
-- `Promise.then()` 보단 `async/await`를 사용해 보세요. 더 최신 스펙이랍니다.
+- `Promise.then()` 보단 `async/await`를 사용해 보세요. 더 최신 스펙이랍니다.
 
 ## 링크 및 참고자료
 
