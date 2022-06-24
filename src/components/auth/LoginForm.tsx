@@ -32,16 +32,20 @@ function LoginForm() {
         JSON.stringify({ email, password: pwd }),
         {},
       );
-      // console.log(response?.data);
+      console.log(response?.data);
       const fetchedEmail: string = response?.data?.detail?.email;
       const fetchedAccessToken: string = response?.data?.detail?.access_token;
-      const decoded = jwt_decode(fetchedAccessToken);
-      console.log('decoded: ');
-      console.log(decoded);
+      console.log('fetchedEmail: ');
+      console.log(fetchedEmail);
+      console.log('fetchedAccessToken: ');
+      console.log(fetchedAccessToken);
+      // const decoded = jwt_decode(fetchedAccessToken);
+      // console.log('decoded: ');
+      // console.log(decoded);
 
-      dispatch(
-        setUser({ email: fetchedEmail, accessToken: fetchedAccessToken }),
-      );
+      // dispatch(
+      //   setUser({ email: fetchedEmail, accessToken: fetchedAccessToken }),
+      // );
       resetEmail();
       setPwd('');
       navigate(from, { replace: true });

@@ -19,9 +19,9 @@ function App() {
         <Route index element={<Main />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         <Route path="/result/:part" element={<ResultPage />} />
-        <Route element={<RequireAuth />}>
-          <Route path="/vote/:part" element={<VotePage />} />
-        </Route>
+        {/* <Route element={<RequireAuth />}> */}
+        <Route path="/vote/:part" element={<VotePage />} />
+        {/* </Route> */}
         {/* </Route> */}
       </Route>
     </Routes>
