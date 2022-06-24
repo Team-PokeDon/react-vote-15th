@@ -15,14 +15,14 @@ function App() {
       <Route element={<Layout />}>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        {/* <Route element={<PersistLogin />}> */}
-        <Route index element={<Main />} />
-        <Route path="/unauthorized" element={<UnauthorizedPage />} />
-        <Route path="/result/:part" element={<ResultPage />} />
-        {/* <Route element={<RequireAuth />}> */}
-        <Route path="/vote/:part" element={<VotePage />} />
-        {/* </Route> */}
-        {/* </Route> */}
+        <Route element={<PersistLogin />}>
+          <Route index element={<Main />} />
+          <Route path="/unauthorized" element={<UnauthorizedPage />} />
+          <Route path="/result/:part" element={<ResultPage />} />
+          <Route element={<RequireAuth />}>
+            <Route path="/vote/:part" element={<VotePage />} />
+          </Route>
+        </Route>
       </Route>
     </Routes>
   );

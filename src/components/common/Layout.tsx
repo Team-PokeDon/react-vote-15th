@@ -5,11 +5,18 @@ import { useAppSelector } from '../../store/app/hooks';
 import { selectUser } from '../../store/slices/authSlice';
 import { media } from '../../lib/styles/theme';
 import useLogout from '../../lib/hooks/auth/useLogout';
+import useDecodeAccessToken from '../../lib/hooks/api/useDecodeAccessToken';
 
 function Layout() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const user = useAppSelector(selectUser);
+
+  const initUser = { user_id: null, part: '', name: '' };
+
+  const { user_id, part, name } = user.accessToken
+    ? useDecodeAccessToken(user.accessToken)
+    : initUser;
   const logout = useLogout();
 
   const handleClickLogout = () => {
@@ -37,16 +44,16 @@ function Layout() {
             </h1>
           </Title>
           <Profile>
-            {/* {user.id ? (
+            {user_id ? (
               <>
                 <div>
-                  {user.name} | {user.part}
+                  {name} | {part}
                 </div>
                 <button onClick={handleClickLogout}>로그아웃</button>
               </>
             ) : (
               <button onClick={handleClickLogin}>로그인</button>
-            )} */}
+            )}
           </Profile>
         </Header>
       </HeaderWrapper>
