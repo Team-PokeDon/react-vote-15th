@@ -1,10 +1,9 @@
 import { Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAppSelector } from '../../store/app/hooks';
-import useRefreshToken from '../../lib/hooks/auth/useRefreshToken';
+import useRefreshToken from '../../lib/hooks/api/useRefreshToken';
 import useLocalStorage from '../../lib/hooks/auth/useLocalStorage';
-import { selectUser } from '../../store/auth/authSlice';
-import { isJSDocLink } from 'typescript';
+import { selectUser } from '../../store/slices/authSlice';
 
 function PersistLogin() {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,15 +23,15 @@ function PersistLogin() {
         isMounted && setIsLoading(false); // escape memory leaks
       }
     };
-    // 새로고침 시에만 verify
-    !user?.token.accessToken ? verifyRefreshToken() : setIsLoading(false);
+    // verify only on refresh
+    !user?.accessToken ? verifyRefreshToken() : setIsLoading(false);
     return () => (isMounted = false);
   }, []);
 
   // TODO: delete following test code
   useEffect(() => {
     console.log(`isLoading: ${isLoading}`);
-    console.log(`aT: ${JSON.stringify(user?.token.accessToken)}`);
+    console.log(`aT: ${JSON.stringify(user?.accessToken)}`);
   }, [isLoading]);
 
   // TODO: Loading -> loading spinner

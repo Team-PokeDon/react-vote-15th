@@ -11,7 +11,6 @@ const USER_REGEX = /^[가-힣a-zA-Z]+$/;
 const PWD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const EMAIL_REGEX =
   /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-const REGISTER_URL = '/users/signups/';
 
 function RegisterForm() {
   const [user, setUser] = useState('');
@@ -75,7 +74,7 @@ function RegisterForm() {
     }
     try {
       const response = await axiosPublic.post(
-        REGISTER_URL,
+        '/users/signups/',
         JSON.stringify({ name: user, password: pwd, email, part }),
         {},
       );

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ResultBox from '../components/vote/ResultBox';
 import { useAppDispatch, useAppSelector } from '../store/app/hooks';
-import { getCandidateThunk } from '../store/candidate';
+import { getCandidateThunk } from '../store/slices/candidateSlice';
 import styled from 'styled-components';
 
 function ResultPage() {

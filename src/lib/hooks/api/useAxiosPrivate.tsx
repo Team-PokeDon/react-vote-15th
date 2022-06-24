@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAppSelector } from '../../../store/app/hooks';
-import { selectUser } from '../../../store/auth/authSlice';
+import { selectUser } from '../../../store/slices/authSlice';
 import { axiosPrivateInstance } from '../../api/axios';
 import useRefreshToken from './useRefreshToken';
 
@@ -33,7 +33,7 @@ function useAxiosPrivate() {
           prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
           return axiosPrivateInstance(prevRequest);
         }
-        return Promise.reject(error); // refresh token expired -> navigate to loginPage
+        return Promise.reject(error); // refresh token expired (again 401) -> navigate to loginPage
       },
     );
 

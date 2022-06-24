@@ -1,15 +1,23 @@
 import { Navigate, Outlet, useLocation, useParams } from 'react-router-dom';
 import UnauthorizedPage from '../../pages/UnauthorizedPage';
 import { useAppSelector } from '../../store/app/hooks';
-import { selectUser } from '../../store/auth/authSlice';
+import { selectUser } from '../../store/slices/authSlice';
+import jwt_decode from 'jwt-decode';
 
 function RequireAuth() {
   const user = useAppSelector(selectUser);
   const location = useLocation();
-  const { part } = useParams();
+  const { paramPart } = useParams();
 
-  if (user.part === 'FE' || user.part === 'BE') {
-    if (user.part === part) {
+  // decode access token
+  const decoded: any = user?.accessToken
+    ? jwt_decode(user.accessToken)
+    : undefined;
+  // TODO: access token 형식 확인
+  const userPart = decoded?.UserInfo?.part || '';
+
+  if (userPart === 'FE' || userPart === 'BE') {
+    if (userPart === paramPart) {
       return <Outlet />;
     } else {
       return <UnauthorizedPage />;

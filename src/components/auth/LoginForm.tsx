@@ -6,13 +6,14 @@ import { useAppDispatch } from '../../store/app/hooks';
 import Button from '../common/Button';
 import useInput from '../../lib/hooks/auth/useInput';
 import useToggle from '../../lib/hooks/auth/useToggle';
-import { setUser } from '../../store/auth/authSlice';
+import { setUser } from '../../store/slices/authSlice';
 import axios from 'axios';
-
-const LOGIN_URL = '/users/logins/';
+import { isElementAccessChain } from 'typescript';
+import jwt_decode from 'jwt-decode';
 
 function LoginForm() {
   const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
   const location = useLocation();
   // @ts-expect-error
@@ -27,11 +28,24 @@ function LoginForm() {
     e.preventDefault();
     try {
       const response = await axiosPublic.post(
-        LOGIN_URL,
+        '/users/logins/',
         JSON.stringify({ email, password: pwd }),
         {},
       );
-      dispatch(setUser(response?.data?.detail));
+      console.log(response?.data);
+      const fetchedEmail: string = response?.data?.detail?.email;
+      const fetchedAccessToken: string = response?.data?.detail?.access_token;
+      console.log('fetchedEmail: ');
+      console.log(fetchedEmail);
+      console.log('fetchedAccessToken: ');
+      console.log(fetchedAccessToken);
+      // const decoded = jwt_decode(fetchedAccessToken);
+      // console.log('decoded: ');
+      // console.log(decoded);
+
+      // dispatch(
+      //   setUser({ email: fetchedEmail, accessToken: fetchedAccessToken }),
+      // );
       resetEmail();
       setPwd('');
       navigate(from, { replace: true });
@@ -40,7 +54,7 @@ function LoginForm() {
         if (!error?.response) {
           setErrMsg('서버가 응답하지 않습니다.');
         } else {
-          setErrMsg('이메일 혹은 비밀번호를 확인해주세요.');
+          setErrMsg('이메일, 비밀번호를 확인해주세요.');
         }
       }
     }

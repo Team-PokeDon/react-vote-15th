@@ -2,7 +2,7 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../assets/logo.png';
 import { useAppSelector } from '../../store/app/hooks';
-import { selectUser } from '../../store/auth/authSlice';
+import { selectUser } from '../../store/slices/authSlice';
 import { media } from '../../lib/styles/theme';
 import useLogout from '../../lib/hooks/auth/useLogout';
 
@@ -37,7 +37,7 @@ function Layout() {
             </h1>
           </Title>
           <Profile>
-            {user.id ? (
+            {/* {user.id ? (
               <>
                 <div>
                   {user.name} | {user.part}
@@ -46,7 +46,7 @@ function Layout() {
               </>
             ) : (
               <button onClick={handleClickLogin}>로그인</button>
-            )}
+            )} */}
           </Profile>
         </Header>
       </HeaderWrapper>
