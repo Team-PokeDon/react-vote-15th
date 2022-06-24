@@ -9,7 +9,7 @@ function useLogout() {
   const logout = async () => {
     dispatch(resetUser());
     try {
-      const response = await axiosPrivate.post('/logouts/', {}, {});
+      const response = await axiosPrivate.post('/users/logouts/', {}, {});
     } catch (error) {
       console.error(error);
     }

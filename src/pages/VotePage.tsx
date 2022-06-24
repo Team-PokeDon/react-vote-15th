@@ -12,7 +12,7 @@ export type TSelectState = {
 };
 
 function VotePage() {
-  const { part } = useParams();
+  const { partParam } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
@@ -27,12 +27,12 @@ function VotePage() {
   const pending = useAppSelector((state) => state.candidate.pending);
 
   useEffect(() => {
-    part && dispatch(getCandidateThunk(part));
+    partParam && dispatch(getCandidateThunk(partParam));
   }, []);
 
-  const list = part
+  const list = partParam
     ? useAppSelector((state) =>
-        part == 'FE' ? state.candidate.FEList : state.candidate.BEList,
+        partParam == 'FE' ? state.candidate.FEList : state.candidate.BEList,
       )
     : [];
 
@@ -44,20 +44,22 @@ function VotePage() {
             candidate: select.id,
           });
           if (res.status == 201) {
-            navigate(`/result/${part}`);
+            navigate(`/result/${partParam}`);
           }
         } catch (e: any) {
           switch (e.response.data.status) {
+            case 401:
+              console.log(e.response.data);
+              alert(
+                '로그인 시간이 만료되었습니다.\n로그인 페이지로 이동합니다.',
+              );
+              navigate('/login', { replace: true });
+              break;
             case 400:
               alert('해당 후보에 중복 투표할 수 없습니다.');
               setSelect(InitialSelect);
               break;
-            case 401:
-              console.log(e.response.data);
-              alert('토큰 인증 오류');
-              // TODO: loginPage로 navigate, login 시 본 페이지로 복귀
-              // 토큰 부분 완성되면 마무리하기
-              break;
+
             default:
               return console.error(e.response);
           }
@@ -89,7 +91,7 @@ function VotePage() {
         <Loading />
       ) : (
         <>
-          <h1>{part} 투표하기</h1>
+          <h1>{partParam} 투표하기</h1>
           <CandidateList ref={voteAreaRef}>
             {list.map((candidate) => (
               <div

@@ -3,12 +3,19 @@ import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import useAxiosPrivate from '../lib/hooks/api/useAxiosPrivate';
+import useDecodeAccessToken from '../lib/hooks/api/useDecodeAccessToken';
 import useRefreshToken from '../lib/hooks/api/useRefreshToken';
 import { useAppSelector } from '../store/app/hooks';
+import { selectUser } from '../store/slices/authSlice';
 function Main() {
   const navigate = useNavigate();
-  const user = useAppSelector((state) => state.auth.user);
-  console.log(user);
+  const user = useAppSelector(selectUser);
+  const initUser = { user_id: null, part: '', name: '' };
+
+  const { part } = user.accessToken
+    ? useDecodeAccessToken(user.accessToken)
+    : initUser;
+
   const handleClickFEVote = useCallback(() => {
     navigate(`/vote/FE`);
   }, []);
@@ -45,17 +52,15 @@ function Main() {
 
   return (
     <Wrapper>
-      <button onClick={() => refresh()}>refresh access token</button>
-      <button onClick={handleClick}>vote with access token</button>
       <button
         onClick={handleClickFEVote}
-        // disabled={user.part == 'BE' ? true : false}
+        disabled={part == 'BE' ? true : false}
       >
         FE 투표하기
       </button>
       <button
         onClick={handleClickBEVote}
-        // disabled={user.part == 'FE' ? true : false}
+        disabled={part == 'FE' ? true : false}
       >
         BE 투표하기
       </button>
