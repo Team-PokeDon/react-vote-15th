@@ -9,8 +9,7 @@ function PersistLogin() {
   const [isLoading, setIsLoading] = useState(true);
   const refresh = useRefreshToken();
   const user = useAppSelector(selectUser);
-  const [persistObj] = useLocalStorage('persist', false);
-  const persist = persistObj == 'true' ? true : false;
+  const [persist] = useLocalStorage('persist', false);
 
   // @ts-expect-error
   useEffect(() => {
