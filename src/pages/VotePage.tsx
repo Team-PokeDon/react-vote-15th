@@ -5,7 +5,7 @@ import Candidate from '../components/vote/Candidate';
 import { getCandidateThunk } from '../store/slices/candidateSlice';
 import { useEffect, useState, useRef } from 'react';
 import Loading from '../components/common/Loading';
-import useAxiosPrivate from '../lib/hooks/useAxiosPrivate';
+import useAxiosPrivate from '../lib/hooks/api/useAxiosPrivate';
 export type TSelectState = {
   id: number | null;
   user_name: string | null;

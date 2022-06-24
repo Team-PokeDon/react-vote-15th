@@ -8,6 +8,8 @@ import useInput from '../../lib/hooks/auth/useInput';
 import useToggle from '../../lib/hooks/auth/useToggle';
 import { setUser } from '../../store/slices/authSlice';
 import axios from 'axios';
+import { isElementAccessChain } from 'typescript';
+import jwt_decode from 'jwt-decode';
 
 function LoginForm() {
   const dispatch = useAppDispatch();
@@ -30,9 +32,13 @@ function LoginForm() {
         JSON.stringify({ email, password: pwd }),
         {},
       );
-      console.log(response?.data);
+      // console.log(response?.data);
       const fetchedEmail: string = response?.data?.detail?.email;
       const fetchedAccessToken: string = response?.data?.detail?.access_token;
+      const decoded = jwt_decode(fetchedAccessToken);
+      console.log('decoded: ');
+      console.log(decoded);
+
       dispatch(
         setUser({ email: fetchedEmail, accessToken: fetchedAccessToken }),
       );

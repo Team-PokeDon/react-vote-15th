@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { useAppSelector } from '../../store/app/hooks';
-import { selectUser } from '../../store/slices/authSlice';
-import { axiosPrivateInstance } from '../api/axios';
-import useRefreshToken from './auth/useRefreshToken';
+import { useAppSelector } from '../../../store/app/hooks';
+import { selectUser } from '../../../store/slices/authSlice';
+import { axiosPrivateInstance } from '../../api/axios';
+import useRefreshToken from './useRefreshToken';
 
 // https://axios-http.com/kr/docs/interceptors
 function useAxiosPrivate() {
