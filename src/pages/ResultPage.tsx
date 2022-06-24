@@ -6,23 +6,23 @@ import { getCandidateThunk } from '../store/slices/candidateSlice';
 import styled from 'styled-components';
 
 function ResultPage() {
-  const { part } = useParams();
+  const { partParam } = useParams();
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    part && dispatch(getCandidateThunk(part));
+    partParam && dispatch(getCandidateThunk(partParam));
   }, []);
 
-  const list = part
+  const list = partParam
     ? useAppSelector((state) =>
-        part == 'FE' ? state.candidate.FEList : state.candidate.BEList,
+        partParam == 'FE' ? state.candidate.FEList : state.candidate.BEList,
       )
     : [];
 
   return (
     <Wrapper>
       <ResultWrapper>
-        <h1>{part} 투표 현황</h1>
+        <h1>{partParam} 투표 현황</h1>
         <ResultBox list={list} />
       </ResultWrapper>
     </Wrapper>

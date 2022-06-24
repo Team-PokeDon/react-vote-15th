@@ -9,7 +9,8 @@ function PersistLogin() {
   const [isLoading, setIsLoading] = useState(true);
   const refresh = useRefreshToken();
   const user = useAppSelector(selectUser);
-  const persist = useLocalStorage('persist', false);
+  const [persistObj] = useLocalStorage('persist', false);
+  const persist = persistObj == 'true' ? true : false;
 
   // @ts-expect-error
   useEffect(() => {
@@ -24,7 +25,7 @@ function PersistLogin() {
       }
     };
     // verify only on refresh
-    !user?.accessToken ? verifyRefreshToken() : setIsLoading(false);
+    !user?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false);
     return () => (isMounted = false);
   }, []);
 
@@ -35,7 +36,7 @@ function PersistLogin() {
   }, [isLoading]);
 
   // TODO: Loading -> loading spinner
-  if (!persist) {
+  /*   if (!persist) {
     return <Outlet />;
   } else {
     if (isLoading) {
@@ -43,11 +44,11 @@ function PersistLogin() {
     } else {
       return <Outlet />;
     }
-  }
+  } */
   // TODO: delete following comment
-  // return (
-  //   <>{!persist ? <Outlet /> : isLoading ? <p>Loading...</p> : <Outlet />}</>
-  // );
+  return (
+    <>{!persist ? <Outlet /> : isLoading ? <p>Loading...</p> : <Outlet />}</>
+  );
 }
 
 export default PersistLogin;

@@ -18,9 +18,9 @@ function App() {
         <Route element={<PersistLogin />}>
           <Route index element={<Main />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
-          <Route path="/result/:part" element={<ResultPage />} />
+          <Route path="/result/:partParam" element={<ResultPage />} />
           <Route element={<RequireAuth />}>
-            <Route path="/vote/:part" element={<VotePage />} />
+            <Route path="/vote/:partParam" element={<VotePage />} />
           </Route>
         </Route>
       </Route>

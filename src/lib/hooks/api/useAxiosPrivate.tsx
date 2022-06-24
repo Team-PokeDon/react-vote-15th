@@ -15,7 +15,7 @@ function useAxiosPrivate() {
         // @ts-expect-error
         if (!config.headers['Authorization']) {
           // @ts-expect-error
-          config.headers['Authorization'] = `Bearer ${user.token.accessToken}`;
+          config.headers['Authorization'] = `Bearer ${user.accessToken}`;
         }
         return config;
       },

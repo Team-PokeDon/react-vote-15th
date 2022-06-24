@@ -7,8 +7,9 @@ interface IAccessToken {
 }
 
 function useDecodeAccessToken(accessToken: string): IAccessToken {
+  console.log(accessToken);
   const { user }: { user: IAccessToken } = jwt_decode(accessToken);
-
+  console.log(user);
   const user_id = user.user_id;
   const part = user.part;
   const name = user.name;
