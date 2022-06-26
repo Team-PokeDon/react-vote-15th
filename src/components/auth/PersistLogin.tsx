@@ -1,9 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAppSelector } from '../../store/app/hooks';
-import useRefreshToken from '../../lib/hooks/api/useRefreshToken';
-import useLocalStorage from '../../lib/hooks/auth/useLocalStorage';
+import useRefreshToken from '../../hooks/auth/useRefreshToken';
+import useLocalStorage from '../../hooks/auth/useLocalStorage';
 import { selectUser } from '../../store/slices/authSlice';
+import Loading from '../common/Loading';
+import styled from 'styled-components';
 
 function PersistLogin() {
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +22,7 @@ function PersistLogin() {
       } catch (err) {
         console.error(err);
       } finally {
-        isMounted && setIsLoading(false); // escape memory leaks
+        isMounted && setIsLoading(false); // escape memory leak
       }
     };
     // verify only on refresh
@@ -28,26 +30,7 @@ function PersistLogin() {
     return () => (isMounted = false);
   }, []);
 
-  // TODO: delete following test code
-  useEffect(() => {
-    console.log(`isLoading: ${isLoading}`);
-    console.log(`aT: ${JSON.stringify(user?.accessToken)}`);
-  }, [isLoading]);
-
-  // TODO: Loading -> loading spinner
-  /*   if (!persist) {
-    return <Outlet />;
-  } else {
-    if (isLoading) {
-      return <p>Loading...</p>;
-    } else {
-      return <Outlet />;
-    }
-  } */
-  // TODO: delete following comment
-  return (
-    <>{!persist ? <Outlet /> : isLoading ? <p>Loading...</p> : <Outlet />}</>
-  );
+  return <>{!persist ? <Outlet /> : isLoading ? <Loading /> : <Outlet />}</>;
 }
 
 export default PersistLogin;

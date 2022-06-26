@@ -2,8 +2,7 @@ import { Navigate, Outlet, useLocation, useParams } from 'react-router-dom';
 import UnauthorizedPage from '../../pages/UnauthorizedPage';
 import { useAppSelector } from '../../store/app/hooks';
 import { selectUser } from '../../store/slices/authSlice';
-import jwt_decode from 'jwt-decode';
-import useDecodeAccessToken from '../../lib/hooks/api/useDecodeAccessToken';
+import useDecodeAccessToken from '../../hooks/auth/useDecodeAccessToken';
 
 function RequireAuth() {
   const location = useLocation();

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
-const useAxios = (configObj: any) => {
+// https://youtu.be/NqdqnfzOQFE
+function useAxios(configObj: any) {
   const { axiosInstance, method, url, requestConfig = {} } = configObj;
 
   const [response, setResponse] = useState([]);
@@ -11,28 +12,29 @@ const useAxios = (configObj: any) => {
   const refetch = () => setReload((prev) => !prev);
 
   useEffect(() => {
-    const controller = new AbortController();
+    const controller = new AbortController(); // escape memory leak
     const fetchData = async () => {
       try {
         const res = await axiosInstance[method.toLowerCase()](url, {
           ...requestConfig,
           signal: controller.signal,
         });
-        console.log(res);
         setResponse(res.data);
-      } catch (err: any) {
-        console.log(err.message);
-        setError(err.message);
+      } catch (error: any) {
+        console.error(error.message);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
     };
     fetchData();
+    // cleanup: component unmount 시 request cancel
+    // -> escape memory leak
     return () => controller.abort();
     // eslint-disable-next-line
   }, [reload]);
 
   return [response, error, loading, refetch];
-};
+}
 
 export default useAxios;

@@ -1,11 +1,11 @@
-import styled, { css } from 'styled-components';
-import { useParams, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/app/hooks';
 import Candidate from '../components/vote/Candidate';
 import { getCandidateThunk } from '../store/slices/candidateSlice';
 import { useEffect, useState, useRef } from 'react';
 import Loading from '../components/common/Loading';
-import useAxiosPrivate from '../lib/hooks/api/useAxiosPrivate';
+import useAxiosPrivate from '../hooks/api/useAxiosPrivate';
 export type TSelectState = {
   id: number | null;
   user_name: string | null;
@@ -14,8 +14,10 @@ export type TSelectState = {
 function VotePage() {
   const { partParam } = useParams();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const voteAreaRef = useRef<HTMLDivElement>(null);
   const submitRef = useRef<HTMLButtonElement>(null);
@@ -49,11 +51,10 @@ function VotePage() {
         } catch (e: any) {
           switch (e.response.data.status) {
             case 401:
-              console.log(e.response.data);
               alert(
                 '로그인 시간이 만료되었습니다.\n로그인 페이지로 이동합니다.',
               );
-              navigate('/login', { replace: true });
+              navigate('/login', { state: { from: location }, replace: true });
               break;
             case 400:
               alert('해당 후보에 중복 투표할 수 없습니다.');
