@@ -4,8 +4,8 @@ import logo from '../../assets/logo.png';
 import { useAppSelector } from '../../store/app/hooks';
 import { selectUser } from '../../store/slices/authSlice';
 import { media } from '../../lib/styles/theme';
-import useLogout from '../../lib/hooks/auth/useLogout';
-import useDecodeAccessToken from '../../lib/hooks/api/useDecodeAccessToken';
+import useLogout from '../../hooks/auth/useLogout';
+import useDecodeAccessToken from '../../hooks/auth/useDecodeAccessToken';
 
 function Layout() {
   const navigate = useNavigate();
@@ -17,11 +17,6 @@ function Layout() {
   const { user_id, part, name } = user.accessToken
     ? useDecodeAccessToken(user.accessToken)
     : initUser;
-  const logout = useLogout();
-
-  const handleClickLogout = () => {
-    logout();
-  };
 
   const handleClickTitle = () => {
     if (pathname && pathname !== '/') {
@@ -31,6 +26,12 @@ function Layout() {
 
   const handleClickLogin = () => {
     navigate('/login');
+  };
+
+  const logout = useLogout();
+  const handleClickLogout = () => {
+    logout();
+    navigate('/');
   };
 
   return (

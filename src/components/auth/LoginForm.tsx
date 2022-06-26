@@ -4,13 +4,10 @@ import styled from 'styled-components';
 import { axiosPublic } from '../../lib/api/axios';
 import { useAppDispatch } from '../../store/app/hooks';
 import Button from '../common/Button';
-import useInput from '../../lib/hooks/auth/useInput';
-import useToggle from '../../lib/hooks/auth/useToggle';
-import { setUser } from '../../store/slices/authSlice';
+import useInput from '../../hooks/auth/useInput';
+import useToggle from '../../hooks/auth/useToggle';
+import { setCredentials } from '../../store/slices/authSlice';
 import axios from 'axios';
-import useDecodeAccessToken from '../../lib/hooks/api/useDecodeAccessToken';
-import { isElementAccessChain } from 'typescript';
-import jwt_decode from 'jwt-decode';
 
 function LoginForm() {
   const dispatch = useAppDispatch();
@@ -33,12 +30,13 @@ function LoginForm() {
         JSON.stringify({ email, password: pwd }),
         {},
       );
-      console.log(response);
       const fetchedEmail = response.data.detail.email;
       const fetchedAccessToken = response.data.detail.token.access_token;
-
       dispatch(
-        setUser({ email: fetchedEmail, accessToken: fetchedAccessToken }),
+        setCredentials({
+          email: fetchedEmail,
+          accessToken: fetchedAccessToken,
+        }),
       );
       resetEmail();
       setPwd('');

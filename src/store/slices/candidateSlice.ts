@@ -12,7 +12,6 @@ export const getCandidateThunk = createAsyncThunk(
   'candidate/getCandidate',
   async (part: string, { rejectWithValue }) => {
     const res = await axiosPublic.get(`/candidates/?part=${part}`);
-    console.log(res);
     if (!res) {
       rejectWithValue('error');
     }
